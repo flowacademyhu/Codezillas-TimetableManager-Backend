@@ -25,4 +25,4 @@
 /.nb-gradle/
 
 ### Config ###
-/resources/application.yml
+*.yml
