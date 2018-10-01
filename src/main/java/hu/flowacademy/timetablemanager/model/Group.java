@@ -4,17 +4,17 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "group")
+@Table(name = "groups")
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String location;
 
     public Long getId() {
