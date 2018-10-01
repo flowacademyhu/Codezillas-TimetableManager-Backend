@@ -23,7 +23,6 @@ public class SubjectService {
         return toDto(subjectRepository.save(entity));
     }
 
-
     public List<SubjectDTO> findAll() {
         return toDto(subjectRepository.findAll());
     }
