@@ -11,7 +11,8 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -30,7 +31,7 @@ public class User {
     private Set<Role> roles = new HashSet<Role>();
 
     @Column
-    private String name;    // full name
+    private String name;
 
     @Column
     private String nickname;
@@ -39,7 +40,13 @@ public class User {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    // region Getters & Setters
+    @ManyToMany(mappedBy = "users")
+    private List<Class> classes;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Subject> subjects;
+
+
     public String getName() {
         return name;
     }
@@ -87,4 +94,13 @@ public class User {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

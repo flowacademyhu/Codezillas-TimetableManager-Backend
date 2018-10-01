@@ -15,11 +15,14 @@ public class Group {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column()
     private String location;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<User> users;
+
+    @OneToMany(mappedBy = "group")
+    private List<Class> classes;
 
     public Long getId() {
         return id;
@@ -51,5 +54,13 @@ public class Group {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
     }
 }

@@ -69,6 +69,6 @@ public class UserDTO {
     }
 
     public void setGroupID(Long fgroupID) {
-        this.groupID = groupID;
+        this.groupID = fgroupID;
     }
 }

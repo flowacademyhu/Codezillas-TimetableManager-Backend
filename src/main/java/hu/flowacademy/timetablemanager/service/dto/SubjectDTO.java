@@ -8,6 +8,8 @@ public class SubjectDTO {
 
     private String color;
 
+    private String userID;
+
     public Long getId() {
         return id;
     }
