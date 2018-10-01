@@ -3,17 +3,16 @@ package hu.flowacademy.timetablemanager.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="subject")
+@Table(name="subjects")
 public class Subject {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String title;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String color;
 
     public Long getId() {
