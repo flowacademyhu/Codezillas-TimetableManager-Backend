@@ -1,6 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -16,6 +17,9 @@ public class Group {
 
     @Column(nullable = false)
     private String location;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -39,5 +43,13 @@ public class Group {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
