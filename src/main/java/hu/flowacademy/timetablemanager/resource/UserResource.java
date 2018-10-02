@@ -33,8 +33,8 @@ public class UserResource {
 
     // Create/edit user
     @PostMapping("/save")
-    public ResponseEntity<UserDTO> save() {
-        return ResponseEntity.ok(userService.save(UserDTO));
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.save(userDTO));
     }
 
     // Delete user
