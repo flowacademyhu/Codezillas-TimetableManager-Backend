@@ -1,0 +1,10 @@
+# Datasource
+spring.datasource.url=jdbc:postgresql://localhost/timetable_db
+spring.datasource.username=g4bor
+spring.datasource.password=password
+spring.datasource.driver-class-name = org.postgresql.Driver
+
+# Hibernate
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL94Dialect
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
