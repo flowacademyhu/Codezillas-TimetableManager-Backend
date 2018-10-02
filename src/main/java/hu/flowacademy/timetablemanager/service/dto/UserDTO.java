@@ -14,7 +14,7 @@ public class UserDTO {
 
     private String role;
 
-    private Long fk_group;
+    private Long groupID;
 
     public Long getId() {
         return id;
@@ -64,11 +64,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public Long getFk_group() {
-        return fk_group;
+    public Long getGroupID() {
+        return groupID;
     }
 
-    public void setFk_group(Long fk_group) {
-        this.fk_group = fk_group;
+    public void setGroupID(Long fgroupID) {
+        this.groupID = fgroupID;
     }
 }
