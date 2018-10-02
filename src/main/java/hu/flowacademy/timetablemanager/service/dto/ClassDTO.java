@@ -12,10 +12,11 @@ public class ClassDTO {
 
     private String comment;
 
+    //Should be mentor names or mentor(user) objects
     private List<Long> mentorIds;
-
+    //Should be subject objects
     private Long subjectId;
-
+    //Should be group object or name
     private Long groupId;
 
     public Long getId() {

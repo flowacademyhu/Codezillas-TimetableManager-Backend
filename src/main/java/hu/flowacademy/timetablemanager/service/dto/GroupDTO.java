@@ -8,6 +8,8 @@ public class GroupDTO {
 
     private String location;
 
+    //Might have to contain users list and classes list?
+
     public Long getId() {
         return id;
     }

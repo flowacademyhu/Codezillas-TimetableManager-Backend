@@ -13,7 +13,7 @@ public class UserDTO {
     private String password;
 
     private String role;
-
+    //Should contain group object, classes list and subjects list.
     private Long groupID;
 
     public Long getId() {

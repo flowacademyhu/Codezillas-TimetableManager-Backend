@@ -7,7 +7,7 @@ public class SubjectDTO {
     private String title;
 
     private String color;
-
+    // Might have to contain classes and user(mentor) list
     private String userID;
 
     public Long getId() {
