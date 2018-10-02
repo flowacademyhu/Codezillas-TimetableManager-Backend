@@ -32,6 +32,10 @@ public class UserService {
                 .map(this::toDto).orElse(null);
     }
 
+    public User findOneDirect(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public void delete(Long id) {
         userRepository.deleteById(id);
     }

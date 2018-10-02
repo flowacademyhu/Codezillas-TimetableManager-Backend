@@ -1,20 +1,37 @@
 package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.Group;
+import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.ClassRepository;
 import hu.flowacademy.timetablemanager.service.dto.ClassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ClassService {
 
     @Autowired
-    private ClassRepository classRepository;
+    private SubjectService subjectService;
+
+    @Autowired
+    private GroupService groupService;
+
+    @Autowired
+    private UserService userService;
+
+    private final ClassRepository classRepository;
+
+    public ClassService(ClassRepository classRepository) {
+        this.classRepository = classRepository;
+    }
 
     public List<Class> classes = new ArrayList<>();
 
@@ -27,6 +44,7 @@ public class ClassService {
         classRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public ClassDTO findOne(Long id) {
         return classRepository.findById(id)
                 .map(this::toDto).orElse(null);
@@ -34,6 +52,10 @@ public class ClassService {
 
     public List<ClassDTO> findAll() {
         return toDto(classRepository.findAll());
+    }
+
+    public List<Class> filter() {
+        return classRepository.filter(1L, 5L);
     }
 
     private List<ClassDTO> toDto(List<Class> classes) {
@@ -49,9 +71,12 @@ public class ClassService {
         classDTO.setStartDate(cls.getStartDate());
         classDTO.setEndDate(cls.getEndDate());
         classDTO.setComment(cls.getComment());
-        classDTO.setFk_id_group(cls.getGroup().getId());
-        classDTO.setFk_id_subject(cls.getSubject().getId());
-        classDTO.setFk_id_mentor_many_to_many(cls.getUsers().get(0).getId());
+        classDTO.setGroupId(Optional.ofNullable(cls.getGroup())
+                .map(Group::getId).orElse(null));
+        classDTO.setSubjectId(cls.getSubject().getId());
+        classDTO.setMentorIds(cls.getUsers()
+                .stream().map(User::getId)
+                .collect(Collectors.toList()));
         return classDTO;
     }
 
@@ -64,9 +89,12 @@ public class ClassService {
         cls.setStartDate(classDTO.getStartDate());
         cls.setEndDate(classDTO.getEndDate());
         cls.setComment(classDTO.getComment());
-/*        cls.setGroup(classDTO.getFk_id_group());
-        cls.setSubject();
-        cls.setUsers();*/
+        cls.setGroup(groupService.findOneDirect(classDTO.getGroupId()));
+        cls.setSubject(subjectService.findOneDirect(classDTO.getSubjectId()));
+        cls.setUsers(classDTO.getMentorIds()
+                .stream().map(mentorId -> userService.findOneDirect(mentorId))
+                .collect(Collectors.toList())
+        );
         return cls;
         }
 

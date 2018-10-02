@@ -26,10 +26,14 @@ public class GroupService {
     public List<GroupDTO> findAll() {
         return toDto(groupRepository.findAll());
     }
-
+    // Group findOneDirect
     public GroupDTO findOne(Long id) {
         return groupRepository.findById(id)
                 .map(group -> toDto(group)).orElse(null);
+    }
+    //
+    public Group findOneDirect(Long id) {
+        return groupRepository.findById(id).orElse(null);
     }
 
     public void delete(Long id) {

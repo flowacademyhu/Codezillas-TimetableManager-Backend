@@ -28,7 +28,7 @@ public class Class {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             inverseJoinColumns =
                 @JoinColumn(name = "class_id"),

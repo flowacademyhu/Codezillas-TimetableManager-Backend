@@ -32,6 +32,10 @@ public class SubjectService {
                 .map(subject -> toDto(subject)).orElse(null);
     }
 
+    public Subject findOneDirect(Long id) {
+        return subjectRepository.findById(id).orElse(null);
+    }
+
     public void delete(Long id) {
         subjectRepository.deleteById(id);
     }
