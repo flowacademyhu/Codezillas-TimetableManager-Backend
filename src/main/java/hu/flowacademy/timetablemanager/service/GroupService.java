@@ -18,7 +18,7 @@ public class GroupService {
 
     public List<Group> groups = new ArrayList<>();
 
-    public GroupDTO save (GroupDTO groupDTO) {
+    public GroupDTO save(GroupDTO groupDTO) {
         Group entity = toEntity(groupDTO);
         return toDto(groupRepository.save(entity));
     }
