@@ -1,7 +1,7 @@
 # Datasource
 spring.datasource.url=jdbc:postgresql://localhost/timetable_db
-spring.datasource.username=g4bor
-spring.datasource.password=password
+spring.datasource.username= # ADD YOUR ---USERNAME--- FOR THE DB
+spring.datasource.password= # ADD YOUR ---PASSWORD--- FOR THE DB
 spring.datasource.driver-class-name = org.postgresql.Driver
 
 # Hibernate

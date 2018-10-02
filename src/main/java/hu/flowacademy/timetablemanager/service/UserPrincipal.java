@@ -10,10 +10,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MyUserDetails implements UserDetails {
+public class UserPrincipal implements UserDetails {
     private User user;
 
-    public MyUserDetails(User user) {
+    public UserPrincipal(User user) {
         this.user = user;
     }
 

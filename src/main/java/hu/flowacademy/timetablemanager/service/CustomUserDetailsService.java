@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyUserService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-    public MyUserService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -23,7 +23,7 @@ public class MyUserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new MyUserDetails(user);
+        return new UserPrincipal(user);
     }
 
 }
