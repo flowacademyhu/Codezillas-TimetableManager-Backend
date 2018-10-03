@@ -1,5 +1,7 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Class;
+
 import java.util.List;
 
 public class ClassDTO {

@@ -1,7 +1,6 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity

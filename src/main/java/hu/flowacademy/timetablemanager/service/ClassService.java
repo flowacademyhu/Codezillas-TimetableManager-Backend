@@ -33,8 +33,6 @@ public class ClassService {
         this.classRepository = classRepository;
     }
 
-    public List<Class> classes = new ArrayList<>();
-
     public ClassDTO save(ClassDTO classDTO) {
         Class entity = toEntity(classDTO);
         return toDto(classRepository.save(entity));

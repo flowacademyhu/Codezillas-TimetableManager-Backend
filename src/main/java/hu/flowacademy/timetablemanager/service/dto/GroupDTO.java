@@ -1,5 +1,10 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.User;
+
+import java.util.List;
+
 public class GroupDTO {
 
     private Long id;
@@ -8,7 +13,9 @@ public class GroupDTO {
 
     private String location;
 
-    //Might have to contain users list and classes list?
+    private List<User> users;
+
+    private List<Class> classes;
 
     public Long getId() {
         return id;
@@ -32,5 +39,21 @@ public class GroupDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
     }
 }

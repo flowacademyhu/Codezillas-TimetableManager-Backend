@@ -5,18 +5,22 @@ import hu.flowacademy.timetablemanager.repository.GroupRepository;
 import hu.flowacademy.timetablemanager.service.dto.GroupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class GroupService {
 
-    @Autowired
-    private GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
 
-    public List<Group> groups = new ArrayList<>();
+    public GroupService(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
 
     public GroupDTO save(GroupDTO groupDTO) {
         Group entity = toEntity(groupDTO);
@@ -55,6 +59,8 @@ public class GroupService {
         groupDTO.setId(group.getId());
         groupDTO.setName(group.getName());
         groupDTO.setLocation(group.getLocation());
+        groupDTO.setUsers(group.getUsers());
+        groupDTO.setClasses(group.getClasses());
         return groupDTO;
     }
 
@@ -66,6 +72,8 @@ public class GroupService {
         group.setId(groupDTO.getId());
         group.setName(groupDTO.getName());
         group.setLocation(groupDTO.getLocation());
+        group.setUsers(groupDTO.getUsers());
+        group.setClasses(groupDTO.getClasses());
         return group;
     }
 }
