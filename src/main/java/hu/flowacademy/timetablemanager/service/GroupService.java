@@ -1,6 +1,8 @@
 package hu.flowacademy.timetablemanager.service;
 
+import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.Group;
+import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.GroupRepository;
 import hu.flowacademy.timetablemanager.service.dto.GroupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class GroupService {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ClassService classService;
 
     private final GroupRepository groupRepository;
 
@@ -59,8 +67,12 @@ public class GroupService {
         groupDTO.setId(group.getId());
         groupDTO.setName(group.getName());
         groupDTO.setLocation(group.getLocation());
-        groupDTO.setUsers(group.getUsers());
-        groupDTO.setClasses(group.getClasses());
+        groupDTO.setUserIds(group.getUsers()
+                        .stream().map(User::getId)
+                .collect(Collectors.toList()));
+        groupDTO.setClassIds(group.getClasses()
+                .stream().map(Class::getId)
+                .collect(Collectors.toList()));
         return groupDTO;
     }
 
@@ -72,8 +84,12 @@ public class GroupService {
         group.setId(groupDTO.getId());
         group.setName(groupDTO.getName());
         group.setLocation(groupDTO.getLocation());
-        group.setUsers(groupDTO.getUsers());
-        group.setClasses(groupDTO.getClasses());
+        group.setUsers(groupDTO.getUserIds()
+                .stream().map(userId -> userService.findOneDirect(userId))
+                .collect(Collectors.toList()));
+        group.setClasses(groupDTO.getClassIds()
+                .stream().map(classId -> classService.findOneDirect(classId))
+                .collect(Collectors.toList()));
         return group;
     }
 }

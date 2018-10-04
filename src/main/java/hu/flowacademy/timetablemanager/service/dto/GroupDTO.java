@@ -12,10 +12,10 @@ public class GroupDTO {
     private String name;
 
     private String location;
+// FKids or objects??
+    private List<Long> userIds;
 
-    private List<User> users;
-
-    private List<Class> classes;
+    private List<Long> classIds;
 
     public Long getId() {
         return id;
@@ -41,19 +41,19 @@ public class GroupDTO {
         this.location = location;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Long> getUserIds() {
+        return userIds;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
     }
 
-    public List<Class> getClasses() {
-        return classes;
+    public List<Long> getClassIds() {
+        return classIds;
     }
 
-    public void setClasses(List<Class> classes) {
-        this.classes = classes;
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
     }
 }

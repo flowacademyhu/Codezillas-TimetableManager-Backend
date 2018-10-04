@@ -2,6 +2,7 @@ package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.Group;
+import hu.flowacademy.timetablemanager.model.Subject;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.ClassRepository;
 import hu.flowacademy.timetablemanager.service.dto.ClassDTO;
@@ -48,6 +49,10 @@ public class ClassService {
                 .map(this::toDto).orElse(null);
     }
 
+    public Class findOneDirect(Long id) {
+        return classRepository.findById(id).orElse(null);
+    }
+
     public List<ClassDTO> findAll() {
         return toDto(classRepository.findAll());
     }
@@ -71,7 +76,10 @@ public class ClassService {
         classDTO.setComment(cls.getComment());
         classDTO.setGroupId(Optional.ofNullable(cls.getGroup())
                 .map(Group::getId).orElse(null));
-        classDTO.setSubjectId(cls.getSubject().getId());
+        //like above
+        classDTO.setSubjectId(Optional.ofNullable(cls.getSubject())
+            .map(Subject::getId).orElse(null));
+        // Many to Many
         classDTO.setMentorIds(cls.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
