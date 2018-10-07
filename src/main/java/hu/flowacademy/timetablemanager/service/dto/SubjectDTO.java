@@ -13,9 +13,9 @@ public class SubjectDTO {
 
     private String color;
     // Might have to contain classes and user(mentor) list
-    private List<Class> classes;
+    private List<Long> classIds;
 
-    private List<User> users;
+    private List<Long> userIds;
 
     public Long getId() {
         return id;
@@ -41,19 +41,19 @@ public class SubjectDTO {
         this.color = color;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Long> getClassIds() {
+        return classIds;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
     }
 
-    public List<Class> getClasses() {
-        return classes;
+    public List<Long> getUserIds() {
+        return userIds;
     }
 
-    public void setClasses(List<Class> classes) {
-        this.classes = classes;
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
     }
 }

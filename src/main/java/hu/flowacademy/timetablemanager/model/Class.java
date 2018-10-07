@@ -1,6 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,8 +36,7 @@ public class Class {
             joinColumns =
                 @JoinColumn(name = "user_id")
     )
-    private List<User> users;
-
+    private List<User> users = new ArrayList<>();
 
     public Long getId() {
         return id;

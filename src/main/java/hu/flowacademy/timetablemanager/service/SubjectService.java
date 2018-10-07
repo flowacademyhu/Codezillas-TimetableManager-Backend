@@ -1,8 +1,11 @@
 package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.Subject;
+import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.SubjectRepository;
 import hu.flowacademy.timetablemanager.service.dto.SubjectDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class SubjectService {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    ClassService classService;
 
     private final SubjectRepository subjectRepository;
 
@@ -55,8 +64,12 @@ public class SubjectService {
         subjectDTO.setId(subject.getId());
         subjectDTO.setTitle(subject.getTitle());
         subjectDTO.setColor(subject.getColor());
-        subjectDTO.setClasses(subject.getClasses());
-        subjectDTO.setUsers(subject.getUsers());
+        subjectDTO.setClassIds(subject.getClasses()
+                .stream().map(Class::getId)
+                .collect(Collectors.toList()));
+        subjectDTO.setUserIds(subject.getUsers()
+                .stream().map(User::getId)
+                .collect(Collectors.toList()));
         return subjectDTO;
     }
 
@@ -68,8 +81,12 @@ public class SubjectService {
         subject.setId(subjectDTO.getId());
         subject.setTitle(subjectDTO.getTitle());
         subject.setColor(subjectDTO.getColor());
-        subject.setClasses(subjectDTO.getClasses());
-        subject.setUsers(subjectDTO.getUsers());
+        subject.setClasses(subjectDTO.getClassIds()
+            .stream().map(classId -> classService.findOneDirect(classId))
+                .collect(Collectors.toList()));
+        subject.setUsers(subjectDTO.getUserIds()
+                .stream().map(userId -> userService.findOneDirect(userId))
+                .collect(Collectors.toList()));
         return subject;
     }
 }

@@ -3,6 +3,7 @@ package hu.flowacademy.timetablemanager.model;
 import hu.flowacademy.timetablemanager.service.dto.UserRole;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     @Column(nullable = false)
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
 
     @Column
     private String name;
@@ -36,16 +37,21 @@ public class User {
     @Column
     private String nickname;
 
+    @Column
+    private String activationCode;
+
+    @Column(nullable = false)
+    private boolean isEnabled;
+
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToMany(mappedBy = "users")
-    private List<Class> classes;
+    private List<Class> classes = new ArrayList<>();
 
     @ManyToMany(mappedBy = "users")
-    private List<Subject> subjects;
-
+    private List<Subject> subjects = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -103,4 +109,35 @@ public class User {
         this.id = id;
     }
 
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
 }
