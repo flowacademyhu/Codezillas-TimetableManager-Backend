@@ -70,10 +70,10 @@ public class UserService {
             return null;
         }
         UserDTO userDTO = new UserDTO();
+
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
-        // userDTO.setRoles(user.getRoles());
         userDTO.setName(user.getName());
         userDTO.setNickname(user.getNickname());
         userDTO.setEnabled(user.isEnabled());
@@ -101,12 +101,16 @@ public class UserService {
         user.setPassword(userDTO.getPassword());
         user.setName(userDTO.getName());
         user.setNickname(userDTO.getNickname());
+        user.setEnabled(userDTO.isEnabled());
+        user.setActivationCode(userDTO.getActivationCode());
         user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
         user.setClasses(userDTO.getClassIds()
                 .stream().map(classId -> classService.findOneDirect(classId))
                 .collect(Collectors.toList()));
-        //user.setSubjects().;
-
+        user.setSubjects(userDTO.getSubjectIds()
+                .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
+                .collect(Collectors.toList()));
+        user.setRoles(userDTO.getRoles());
         return user;
     }
 }
