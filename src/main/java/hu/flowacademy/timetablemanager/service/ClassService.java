@@ -49,16 +49,19 @@ public class ClassService {
                 .map(this::toDto).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public Class findOneDirect(Long id) {
         return classRepository.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public List<ClassDTO> findAll() {
         return toDto(classRepository.findAll());
     }
 
-    public List<Class> filter() {
-        return classRepository.filter(1L, 5L);
+    @Transactional(readOnly = true)
+    public List<Class> filter(Long startDateStart, Long startDateEnd) {
+        return classRepository.filter(startDateStart, startDateEnd);
     }
 
     private List<ClassDTO> toDto(List<Class> classes) {

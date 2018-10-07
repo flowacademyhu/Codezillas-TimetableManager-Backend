@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    GroupService groupService;
+    private GroupService groupService;
 
     @Autowired
-    ClassService classService;
+    private ClassService classService;
 
     @Autowired
-    SubjectService subjectService;
+    private SubjectService subjectService;
 
     private final UserRepository userRepository;
 
@@ -37,21 +37,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
     public UserDTO save(UserDTO userDTO) {
         User entity = toEntity(userDTO);
         return toDto(userRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return toDto(userRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
                 .map(this::toDto).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public User findOneDirect(Long id) {
         return userRepository.findById(id).orElse(null);
     }

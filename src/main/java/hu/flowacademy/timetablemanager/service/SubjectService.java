@@ -34,15 +34,18 @@ public class SubjectService {
         return toDto(subjectRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public List<SubjectDTO> findAll() {
         return toDto(subjectRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public SubjectDTO findOne(Long id) {
         return subjectRepository.findById(id)
-                .map(subject -> toDto(subject)).orElse(null);
+                .map(this::toDto).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public Subject findOneDirect(Long id) {
         return subjectRepository.findById(id).orElse(null);
     }

@@ -35,15 +35,18 @@ public class GroupService {
         return toDto(groupRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public List<GroupDTO> findAll() {
         return toDto(groupRepository.findAll());
     }
-    // Group findOneDirect
+
+    @Transactional(readOnly = true)
     public GroupDTO findOne(Long id) {
         return groupRepository.findById(id)
                 .map(group -> toDto(group)).orElse(null);
     }
-    //
+
+    @Transactional(readOnly = true)
     public Group findOneDirect(Long id) {
         return groupRepository.findById(id).orElse(null);
     }
