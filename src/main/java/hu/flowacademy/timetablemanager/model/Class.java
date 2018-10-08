@@ -1,6 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,15 +29,14 @@ public class Class {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             inverseJoinColumns =
                 @JoinColumn(name = "class_id"),
             joinColumns =
                 @JoinColumn(name = "user_id")
     )
-    private List<User> users;
-
+    private List<User> users = new ArrayList<>();
 
     public Long getId() {
         return id;

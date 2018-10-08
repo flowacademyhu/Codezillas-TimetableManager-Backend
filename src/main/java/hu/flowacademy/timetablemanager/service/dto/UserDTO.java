@@ -1,5 +1,12 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.Role;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class UserDTO {
 
     private Long id;
@@ -10,11 +17,19 @@ public class UserDTO {
 
     private String email;
 
+    private boolean isEnabled;
+
+    private String activationCode;
+
     private String password;
 
-    private String role;
+    private Set<Role> roles = new HashSet<>();
 
-    private Long groupID;
+    private List<Long> classIds;
+
+    private List<Long> subjectIds;
+
+    private Long groupId;
 
     public Long getId() {
         return id;
@@ -56,19 +71,52 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+
+    public List<Long> getClassIds() {
+        return classIds;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
     }
 
-    public Long getGroupID() {
-        return groupID;
+    public List<Long> getSubjectIds() {
+        return subjectIds;
     }
 
-    public void setGroupID(Long fgroupID) {
-        this.groupID = fgroupID;
+    public void setSubjectIds(List<Long> subjectIds) {
+        this.subjectIds = subjectIds;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
