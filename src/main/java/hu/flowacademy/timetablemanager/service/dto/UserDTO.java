@@ -3,6 +3,7 @@ package hu.flowacademy.timetablemanager.service.dto;
 import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.Role;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,11 +24,11 @@ public class UserDTO {
 
     private String password;
 
-    private Set<Role> roles = new HashSet<>();
+    private List<String> roles = new ArrayList<>();
 
-    private List<Long> classIds;
+    private List<Long> classIds = new ArrayList<>();
 
-    private List<Long> subjectIds;
+    private List<Long> subjectIds = new ArrayList<>();
 
     private Long groupId;
 
@@ -112,11 +113,11 @@ public class UserDTO {
         this.activationCode = activationCode;
     }
 
-    public Set<Role> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 }

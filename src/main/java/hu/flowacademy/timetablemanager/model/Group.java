@@ -1,6 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,7 +10,7 @@ import java.util.List;
 public class Group {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -19,10 +20,10 @@ public class Group {
     private String location;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<Class> classes;
+    private List<Class> classes = new ArrayList<>();
 
     public Long getId() {
         return id;

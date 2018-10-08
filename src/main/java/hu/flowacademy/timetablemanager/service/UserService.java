@@ -1,8 +1,6 @@
 package hu.flowacademy.timetablemanager.service;
 
-import hu.flowacademy.timetablemanager.model.Group;
-import hu.flowacademy.timetablemanager.model.Subject;
-import hu.flowacademy.timetablemanager.model.User;
+import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.repository.ClassRepository;
 import hu.flowacademy.timetablemanager.repository.GroupRepository;
@@ -88,7 +86,7 @@ public class UserService {
         userDTO.setSubjectIds(user.getSubjects()
                 .stream().map(Subject::getId)
                 .collect(Collectors.toList()));
-        userDTO.setRoles(user.getRoles());
+        userDTO.setRoles(user.getRoles().stream().map(Role::getRole).collect(Collectors.toList()));
         return userDTO;
     }
 
@@ -105,14 +103,14 @@ public class UserService {
         user.setNickname(userDTO.getNickname());
         user.setEnabled(userDTO.isEnabled());
         user.setActivationCode(userDTO.getActivationCode());
-        user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
         user.setClasses(userDTO.getClassIds()
                 .stream().map(classId -> classService.findOneDirect(classId))
                 .collect(Collectors.toList()));
         user.setSubjects(userDTO.getSubjectIds()
                 .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
                 .collect(Collectors.toList()));
-        user.setRoles(userDTO.getRoles());
+        user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
+        user.setRoles(user.getRoles());
         return user;
     }
 }

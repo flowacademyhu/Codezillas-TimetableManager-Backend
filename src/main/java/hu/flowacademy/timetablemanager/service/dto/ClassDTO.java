@@ -2,6 +2,7 @@ package hu.flowacademy.timetablemanager.service.dto;
 
 import hu.flowacademy.timetablemanager.model.Class;
 
+import java.util.ArrayList;
 import java.util.List;
 // TODO: Rework: foreign ids to objects.
 public class ClassDTO {
@@ -15,7 +16,7 @@ public class ClassDTO {
     private String comment;
 
     //Should be mentor names or mentor(user) objects
-    private List<Long> mentorIds;
+    private List<Long> mentorIds = new ArrayList<>();
     //Should be subject objects
     private Long subjectId;
     //Should be group object or name

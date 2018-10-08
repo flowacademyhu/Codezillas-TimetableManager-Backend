@@ -13,7 +13,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -28,7 +28,6 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    @Column(nullable = false)
     private Set<Role> roles = new HashSet<>();
 
     @Column
@@ -50,7 +49,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Class> classes = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Subject> subjects = new ArrayList<>();
 
     public String getName() {
@@ -91,6 +90,10 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = new HashSet<>(roles);
     }
 
     public Group getGroup() {

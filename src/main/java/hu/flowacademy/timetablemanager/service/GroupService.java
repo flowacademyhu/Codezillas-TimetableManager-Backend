@@ -71,7 +71,7 @@ public class GroupService {
         groupDTO.setName(group.getName());
         groupDTO.setLocation(group.getLocation());
         groupDTO.setUserIds(group.getUsers()
-                        .stream().map(User::getId)
+                .stream().map(User::getId)
                 .collect(Collectors.toList()));
         groupDTO.setClassIds(group.getClasses()
                 .stream().map(Class::getId)
@@ -93,6 +93,7 @@ public class GroupService {
         group.setClasses(groupDTO.getClassIds()
                 .stream().map(classId -> classService.findOneDirect(classId))
                 .collect(Collectors.toList()));
+
         return group;
     }
 }

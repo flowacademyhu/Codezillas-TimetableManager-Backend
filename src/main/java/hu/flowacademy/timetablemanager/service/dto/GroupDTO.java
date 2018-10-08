@@ -3,6 +3,7 @@ package hu.flowacademy.timetablemanager.service.dto;
 import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupDTO {
@@ -13,9 +14,9 @@ public class GroupDTO {
 
     private String location;
 // FKids or objects??
-    private List<Long> userIds;
+    private List<Long> userIds = new ArrayList<>();
 
-    private List<Long> classIds;
+    private List<Long> classIds= new ArrayList<>();
 
     public Long getId() {
         return id;

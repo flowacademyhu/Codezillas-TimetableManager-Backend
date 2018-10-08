@@ -9,7 +9,7 @@ import java.util.List;
 public class Class {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -29,7 +29,7 @@ public class Class {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             inverseJoinColumns =
                 @JoinColumn(name = "class_id"),
