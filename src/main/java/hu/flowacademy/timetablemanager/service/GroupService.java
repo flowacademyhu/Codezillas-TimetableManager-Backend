@@ -5,6 +5,7 @@ import hu.flowacademy.timetablemanager.model.Group;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.GroupRepository;
 import hu.flowacademy.timetablemanager.service.dto.GroupDTO;
+import hu.flowacademy.timetablemanager.service.dto.GroupDTOWuser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,11 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
+    public GroupDTOWuser findOneByName(String name) {
+        return this.toDtoWithUser(groupRepository.findByName(name));
+    }
+
+    @Transactional(readOnly = true)
     public Group findOneDirect(Long id) {
         return groupRepository.findById(id).orElse(null);
     }
@@ -73,6 +79,21 @@ public class GroupService {
         groupDTO.setUserIds(group.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
+        groupDTO.setClassIds(group.getClasses()
+                .stream().map(Class::getId)
+                .collect(Collectors.toList()));
+        return groupDTO;
+    }
+
+    private GroupDTOWuser toDtoWithUser(Group group) {
+        if (group == null) {
+            return null;
+        }
+        GroupDTOWuser groupDTO = new GroupDTOWuser();
+        groupDTO.setId(group.getId());
+        groupDTO.setName(group.getName());
+        groupDTO.setLocation(group.getLocation());
+        groupDTO.setUserNames(group.getUsers());
         groupDTO.setClassIds(group.getClasses()
                 .stream().map(Class::getId)
                 .collect(Collectors.toList()));

@@ -46,6 +46,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserDTO findAllByGroupId(Long id) {
+        return toDto(userRepository.findAllByGroupId(id));
+    }
+
+
+    @Transactional(readOnly = true)
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
                 .map(this::toDto).orElse(null);
@@ -110,7 +116,7 @@ public class UserService {
                 .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
                 .collect(Collectors.toList()));
         user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
-        user.setRoles(user.getRoles());
+        //user.setRoles(user.getRoles());
         return user;
     }
 }
