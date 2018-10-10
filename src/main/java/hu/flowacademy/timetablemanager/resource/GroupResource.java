@@ -3,9 +3,7 @@ package hu.flowacademy.timetablemanager.resource;
 import hu.flowacademy.timetablemanager.service.GroupService;
 import hu.flowacademy.timetablemanager.service.UserService;
 import hu.flowacademy.timetablemanager.service.dto.GroupDTO;
-import hu.flowacademy.timetablemanager.service.dto.GroupDTOWuser;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

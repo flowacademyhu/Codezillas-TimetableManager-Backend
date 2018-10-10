@@ -50,7 +50,6 @@ public class UserService {
         return toDto(userRepository.findByGroupId(id));
     }
 
-
     @Transactional(readOnly = true)
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
