@@ -35,7 +35,7 @@ public class GroupResource {
     }
 
     @GetMapping("/{id}/{name}")
-    public ResponseEntity<UserDTO> findOneByName(@PathVariable Long id, @PathVariable String name) {
+    public ResponseEntity<List<UserDTO>> findOneByName(@PathVariable Long id, @PathVariable String name) {
         return ResponseEntity.ok(userService.findAllByGroupId(id));
     }
 

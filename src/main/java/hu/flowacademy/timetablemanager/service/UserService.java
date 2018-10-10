@@ -46,8 +46,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDTO findAllByGroupId(Long id) {
-        return toDto(userRepository.findAllByGroupId(id));
+    public List<UserDTO> findAllByGroupId(Long id) {
+        return toDto(userRepository.findByGroupId(id));
     }
 
 
