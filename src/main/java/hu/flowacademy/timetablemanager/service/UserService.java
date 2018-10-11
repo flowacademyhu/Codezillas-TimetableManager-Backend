@@ -46,11 +46,6 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserDTO> findAllByGroupId(Long id) {
-        return toDto(userRepository.findByGroupId(id));
-    }
-
-    @Transactional(readOnly = true)
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
                 .map(this::toDto).orElse(null);

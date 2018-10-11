@@ -26,7 +26,7 @@ public class GroupResource {
 
 
 
-    // Return all 
+
     @GetMapping("/all")
     public ResponseEntity<List<GroupDTO>> findAll() {
         return ResponseEntity.ok(groupService.findAll());
@@ -34,22 +34,19 @@ public class GroupResource {
 
     @GetMapping("/{id}/{name}")
     public ResponseEntity<List<UserDTO>> findOneByName(@PathVariable Long id, @PathVariable String name) {
-        return ResponseEntity.ok(userService.findAllByGroupId(id));
+        return ResponseEntity.ok(groupService.findAllUserByGroupId(id));
     }
 
-    // Return a group by ID
     @GetMapping("/{id}")
     public ResponseEntity<GroupDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(groupService.findOne(id));
     }
 
-    // Create/edit group
     @PostMapping("/save")
     public ResponseEntity<GroupDTO> save(@RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.save(groupDTO));
     }
 
-    // Delete group
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         groupService.delete(id);

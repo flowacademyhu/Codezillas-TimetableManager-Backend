@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.lang.Long.valueOf;
+
 @RestController
 @RequestMapping("/classes")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -29,6 +31,13 @@ public class ClassResource {
     @GetMapping("/{id}")
     public ResponseEntity<ClassDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(classService.findOne(id));
+    }
+
+    @GetMapping(value = "/fil")
+    public ResponseEntity<List<ClassDTO>> findByUserId(@RequestParam(value="userId", required = false) Long userId,
+                                                       @RequestParam(value = "SDS") Long SDS,
+                                                       @RequestParam(value = "SDE") Long SDE) {
+        return ResponseEntity.ok(classService.filter(userId, SDS, SDE));
     }
 
     // Create/edit class

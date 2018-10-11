@@ -4,7 +4,9 @@ import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.Group;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.GroupRepository;
+import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.GroupDTO;
+import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +26,11 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
 
-    public GroupService(GroupRepository groupRepository) {
+    private final UserRepository userRepository;
+
+    public GroupService(GroupRepository groupRepository, UserRepository userRepository) {
         this.groupRepository = groupRepository;
+        this.userRepository = userRepository;
     }
 
     public GroupDTO save(GroupDTO groupDTO) {
@@ -47,6 +52,11 @@ public class GroupService {
     @Transactional(readOnly = true)
     public Group findOneDirect(Long id) {
         return groupRepository.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> findAllUserByGroupId(Long id) {
+        return userService.toDto(userRepository.findByGroupId(id));
     }
 
     public void delete(Long id) {

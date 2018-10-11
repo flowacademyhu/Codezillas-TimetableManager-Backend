@@ -60,9 +60,18 @@ public class ClassService {
     }
 
     @Transactional(readOnly = true)
-    public List<Class> filter(Long startDateStart, Long startDateEnd) {
-        return classRepository.filter(startDateStart, startDateEnd);
+    public List<ClassDTO> filter(Long startDateStart, Long startDateEnd) {
+        return toDto(classRepository.filter(startDateStart, startDateEnd));
     }
+
+    @Transactional(readOnly = true)
+    public List<ClassDTO> filter(Long id, Long startDateStart, Long startDateEnd) {
+        List<ClassDTO> dtos = toDto(classRepository.filter(startDateStart, startDateEnd));
+        return dtos.stream().filter(o -> o.getMentorIds().contains(id)).collect(Collectors.toList());
+    }
+/*    public List<ClassDTO> findByUserNameAndDate(Long userId, Long startDateStart, Long startDateEnd) {
+        return toDto(classRepository.find(userId, startDateStart, startDateEnd));
+    }*/
 
     private List<ClassDTO> toDto(List<Class> classes) {
         return classes.stream().map(this::toDto).collect(Collectors.toList());
@@ -79,10 +88,8 @@ public class ClassService {
         classDTO.setComment(cls.getComment());
         classDTO.setGroupId(Optional.ofNullable(cls.getGroup())
                 .map(Group::getId).orElse(null));
-        //like above
         classDTO.setSubjectId(Optional.ofNullable(cls.getSubject())
             .map(Subject::getId).orElse(null));
-        // Many to Many
         classDTO.setMentorIds(cls.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
