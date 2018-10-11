@@ -39,11 +39,8 @@ public class ClassResource {
                                                        @RequestParam(value = "SDS") Long SDS,
                                                        @RequestParam(value = "SDE") Long SDE) {
 
-        if (userId != null) {
-            return ResponseEntity.ok(classService.filter(userId, SDS, SDE));
-        } else {
-            return  ResponseEntity.ok(classService.filter(SDS, SDE));
-        }
+
+            return ResponseEntity.ok(classService.filter(groupId, SDS, SDE));
 
     }
 

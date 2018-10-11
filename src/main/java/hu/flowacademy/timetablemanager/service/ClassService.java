@@ -65,13 +65,9 @@ public class ClassService {
     }
 
     @Transactional(readOnly = true)
-    public List<ClassDTO> filter(Long id, Long startDateStart, Long startDateEnd) {
-        List<ClassDTO> dtos = toDto(classRepository.filter(startDateStart, startDateEnd));
-        return dtos.stream().filter(o -> o.getMentorIds().contains(id)).collect(Collectors.toList());
+    public List<ClassDTO> filter(Long groupId, Long startDateStart, Long startDateEnd) {
+        return toDto(classRepository.filter(groupId, startDateStart, startDateEnd));
     }
-/*    public List<ClassDTO> findByUserNameAndDate(Long userId, Long startDateStart, Long startDateEnd) {
-        return toDto(classRepository.find(userId, startDateStart, startDateEnd));
-    }*/
 
     private List<ClassDTO> toDto(List<Class> classes) {
         return classes.stream().map(this::toDto).collect(Collectors.toList());

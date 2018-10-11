@@ -16,11 +16,12 @@ public interface ClassRepository extends JpaRepository<Class, Long> {
     List<Class> filter(@Param("start_date_start") Long startDateStart,
                        @Param("start_date_end") Long startDateEnd);
 
-/*    @Query("select c from Class c " +
-            "where c.users in :user_id and c.startDate between :start_date_start AND :start_date_end ")
-    List<Class> filter(@Param("user_id") List<Long> userId,
+    @Query("select c from Class c " +
+            " left join c.group as grouped where grouped.id " +
+            " = :group_id and c.startDate between :start_date_start AND :start_date_end ")
+    List<Class> filter(@Param("group_id") Long groupId,
                        @Param("start_date_start") Long startDateStart,
-                       @Param("start_date_end") Long StartDateEnd);*/
+                       @Param("start_date_end") Long StartDateEnd);
 
 
 }
