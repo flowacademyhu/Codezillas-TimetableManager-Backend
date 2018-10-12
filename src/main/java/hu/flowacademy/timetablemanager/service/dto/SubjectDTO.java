@@ -1,5 +1,11 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SubjectDTO {
 
     private Long id;
@@ -7,8 +13,10 @@ public class SubjectDTO {
     private String title;
 
     private String color;
+    // Might have to contain classes and user(mentor) list
+    private List<Long> classIds = new ArrayList<>();
 
-    private String userID;
+    private List<Long> userIds = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -32,5 +40,21 @@ public class SubjectDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public List<Long> getClassIds() {
+        return classIds;
+    }
+
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
+    }
+
+    public List<Long> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
     }
 }

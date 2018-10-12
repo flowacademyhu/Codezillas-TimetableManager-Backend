@@ -1,22 +1,38 @@
 package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.Group;
+import hu.flowacademy.timetablemanager.model.Subject;
+import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.ClassRepository;
 import hu.flowacademy.timetablemanager.service.dto.ClassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ClassService {
 
     @Autowired
-    private ClassRepository classRepository;
+    private SubjectService subjectService;
 
-    public List<Class> classes = new ArrayList<>();
+    @Autowired
+    private GroupService groupService;
+
+    @Autowired
+    private UserService userService;
+
+    private final ClassRepository classRepository;
+
+    public ClassService(ClassRepository classRepository) {
+        this.classRepository = classRepository;
+    }
 
     public ClassDTO save(ClassDTO classDTO) {
         Class entity = toEntity(classDTO);
@@ -27,13 +43,47 @@ public class ClassService {
         classRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public ClassDTO findOne(Long id) {
         return classRepository.findById(id)
                 .map(this::toDto).orElse(null);
     }
 
+    @Transactional(readOnly = true)
+    public Class findOneDirect(Long id) {
+        return classRepository.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public List<ClassDTO> findAll() {
         return toDto(classRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ClassDTO> filter(Long startDateStart, Long startDateEnd) {
+        return toDto(classRepository.filter(startDateStart, startDateEnd));
+    }
+
+    @Transactional(readOnly = true)
+    public List<ClassDTO> filter(Long groupId, Long startDateStart, Long startDateEnd) {
+        return toDto(classRepository.filter(groupId, startDateStart, startDateEnd));
+    }
+    //TODO: with userid null res.
+    @Transactional(readOnly = true)
+    public List<ClassDTO> filter(Long userId, Long groupId, Long startDateStart, Long startDateEnd) {
+        List<ClassDTO> result;
+
+        if(groupId != null){
+            result = filter(groupId, startDateStart, startDateEnd);
+        } else {
+            result = filter(startDateStart,  startDateEnd);
+        }
+
+        if(userId != null) {
+            result = result.stream().filter(o -> o.getMentorIds().contains(userId)).collect(Collectors.toList());
+        }
+
+        return  result;
     }
 
     private List<ClassDTO> toDto(List<Class> classes) {
@@ -49,9 +99,13 @@ public class ClassService {
         classDTO.setStartDate(cls.getStartDate());
         classDTO.setEndDate(cls.getEndDate());
         classDTO.setComment(cls.getComment());
-        classDTO.setFk_id_group(cls.getGroup().getId());
-        classDTO.setFk_id_subject(cls.getSubject().getId());
-        classDTO.setFk_id_mentor_many_to_many(cls.getUsers().get(0).getId());
+        classDTO.setGroupId(Optional.ofNullable(cls.getGroup())
+                .map(Group::getId).orElse(null));
+        classDTO.setSubjectId(Optional.ofNullable(cls.getSubject())
+            .map(Subject::getId).orElse(null));
+        classDTO.setMentorIds(cls.getUsers()
+                .stream().map(User::getId)
+                .collect(Collectors.toList()));
         return classDTO;
     }
 
@@ -64,9 +118,12 @@ public class ClassService {
         cls.setStartDate(classDTO.getStartDate());
         cls.setEndDate(classDTO.getEndDate());
         cls.setComment(classDTO.getComment());
-/*        cls.setGroup(classDTO.getFk_id_group());
-        cls.setSubject();
-        cls.setUsers();*/
+        cls.setGroup(groupService.findOneDirect(classDTO.getGroupId()));
+        cls.setSubject(subjectService.findOneDirect(classDTO.getSubjectId()));
+        cls.setUsers(classDTO.getMentorIds()
+                .stream().map(mentorId -> userService.findOneDirect(mentorId))
+                .collect(Collectors.toList())
+        );
         return cls;
         }
 
