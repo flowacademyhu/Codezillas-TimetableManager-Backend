@@ -12,32 +12,28 @@ import java.util.List;
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserResource {
-    @Autowired
+
     private final UserService userService;
 
     public UserResource(UserService userService){
         this.userService = userService;
     }
 
-    // Return all users
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    // Return a user by ID
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findOne(id));
     }
 
-    // Create/edit user
     @PostMapping("/save")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.save(userDTO));
     }
 
-    // Delete user
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);

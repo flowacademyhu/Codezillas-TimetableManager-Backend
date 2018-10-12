@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},

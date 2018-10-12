@@ -13,19 +13,12 @@ import java.util.List;
 @RequestMapping("/groups")
 @CrossOrigin(origins = "http://localhost:4200")
 public class GroupResource {
-/*    @Autowired*/
-    private final GroupService groupService;
 
-/*    @Autowired*/
-    private final UserService userService;
+    private final GroupService groupService;
 
     public GroupResource(GroupService groupService, UserService userService){
         this.groupService = groupService;
-        this.userService = userService;
     }
-
-
-
 
     @GetMapping("/all")
     public ResponseEntity<List<GroupDTO>> findAll() {

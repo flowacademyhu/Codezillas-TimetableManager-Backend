@@ -19,10 +19,10 @@ public class Group {
     @Column()
     private String location;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Class> classes = new ArrayList<>();
 
     public Long getId() {
