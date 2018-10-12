@@ -33,15 +33,12 @@ public class ClassResource {
         return ResponseEntity.ok(classService.findOne(id));
     }
 
-    @GetMapping(value = "/fil")
+    @GetMapping(value = "/filter")
     public ResponseEntity<List<ClassDTO>> findByUserId(@RequestParam(value="userId", required = false) Long userId,
                                                        @RequestParam(value="groupId", required = false) Long groupId,
                                                        @RequestParam(value = "SDS") Long SDS,
                                                        @RequestParam(value = "SDE") Long SDE) {
-
-
-            return ResponseEntity.ok(classService.filter(groupId, SDS, SDE));
-
+        return ResponseEntity.ok(classService.filter(userId, groupId, SDS, SDE));
     }
 
     // Create/edit class
