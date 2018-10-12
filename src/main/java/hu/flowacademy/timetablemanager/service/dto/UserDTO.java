@@ -1,27 +1,47 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Group;
+import hu.flowacademy.timetablemanager.model.Subject;
+
+import java.util.Set;
+
 public class UserDTO {
 
     private Long id;
+
+    private String email;
 
     private String name;
 
     private String nickname;
 
-    private String email;
-
     private String password;
 
-    private String role;
+    private String activationCode;
 
-    private Long groupID;
+    private boolean isEnabled;
 
+    private Group group;
+
+    private Set<Class> classes;
+
+    private Set<Subject> subjects;
+
+    // region Getters & Setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -40,14 +60,6 @@ public class UserDTO {
         this.nickname = nickname;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -56,19 +68,44 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getActivationCode() {
+        return activationCode;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
-    public Long getGroupID() {
-        return groupID;
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
-    public void setGroupID(Long fgroupID) {
-        this.groupID = fgroupID;
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Set<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Set<Class> classes) {
+        this.classes = classes;
+    }
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
+    // endregion
 }

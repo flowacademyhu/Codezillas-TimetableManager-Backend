@@ -8,3 +8,16 @@ spring.datasource.driver-class-name = org.postgresql.Driver
 spring.jpa.hibernate.ddl-auto = update
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
+# Hibernate config
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL94Dialect
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
+# Mail service config
+spring.mail.host=mail.nethely.hu
+spring.mail.port=1025
+spring.mail.username=g4bor@codename042.infora.hu
+spring.mail.password= # MY_PRIVATE_OWN_PASSWORD
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.ssl.trust=mail.nethely.hu

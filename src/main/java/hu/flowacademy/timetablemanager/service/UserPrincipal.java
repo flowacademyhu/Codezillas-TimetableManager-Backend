@@ -17,7 +17,6 @@ public class UserPrincipal implements UserDetails {
         this.user = user;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new HashSet<>();
@@ -52,6 +51,6 @@ public class UserPrincipal implements UserDetails {
     }
     @Override   // locked accout option
     public boolean isEnabled() {
-        return true;
+        return user.isEnabled();
     }
 }

@@ -1,10 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
-import hu.flowacademy.timetablemanager.service.dto.UserRole;
-
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,8 +15,20 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column
+    private String name;
+
+    @Column
+    private String nickname;
+
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private String activationCode;
+
+    @Column(nullable = false)
+    private boolean isEnabled;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -27,26 +36,24 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    @Column(nullable = false)
     private Set<Role> roles = new HashSet<Role>();
-
-    @Column
-    private String name;
-
-    @Column
-    private String nickname;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToMany(mappedBy = "users")
-    private List<Class> classes;
+    private Set<Class> classes;
 
-    @ManyToMany(mappedBy = "users")
-    private List<Subject> subjects;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "subject_users",
+            joinColumns = {@JoinColumn(name = "subject_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<Subject> subjects;
 
-
+    // region Getters & Setters
     public String getName() {
         return name;
     }
@@ -87,6 +94,11 @@ public class User {
         this.roles = roles;
     }
 
+    public void addRole(Role role) {
+        if (this.roles == null || this.roles.isEmpty()) { this.roles = new HashSet<>(); }
+        roles.add(role);
+    }
+
     public Group getGroup() {
         return group;
     }
@@ -103,4 +115,20 @@ public class User {
         this.id = id;
     }
 
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+    // endregion
 }
