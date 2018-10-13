@@ -16,9 +16,6 @@ public class Group {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column()
-    private String location;
-
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
@@ -39,14 +36,6 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public List<User> getUsers() {
