@@ -24,7 +24,6 @@ public class EntryResource {
     private CustomUserDetailsService customUDS;
     private EmailService emailService;
 
-    @Autowired
     public EntryResource(UserRepository userRepository, UserService userService,
                          CustomUserDetailsService customUserDetailsService,
                          AuthService authService, EmailService emailService) {
@@ -73,7 +72,7 @@ public class EntryResource {
         return null;
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+/*    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ResponseEntity<UserDTO> profile() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserDTO resultDTO = userService.toDto(userRepository.findByEmail(email));
@@ -81,7 +80,7 @@ public class EntryResource {
         return new ResponseEntity<UserDTO>(
                 resultDTO,
                 HttpStatus.OK);
-    }
+    }*/
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin() {
