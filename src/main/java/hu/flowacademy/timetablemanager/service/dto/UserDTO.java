@@ -1,47 +1,41 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
-import hu.flowacademy.timetablemanager.model.Group;
-import hu.flowacademy.timetablemanager.model.Subject;
+import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.model.Role;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDTO {
 
     private Long id;
 
-    private String email;
-
     private String name;
 
     private String nickname;
 
-    private String password;
-
-    private String activationCode;
+    private String email;
 
     private boolean isEnabled;
 
-    private Group group;
+    private String activationCode;
 
-    private Set<Class> classes;
+    private String password;
 
-    private Set<Subject> subjects;
+    private List<String> roles = new ArrayList<>();
 
-    // region Getters & Setters
+    private List<Long> classIds = new ArrayList<>();
+
+    private List<Long> subjectIds = new ArrayList<>();
+
+    private Long groupId;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getName() {
@@ -60,6 +54,14 @@ public class UserDTO {
         this.nickname = nickname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -68,12 +70,28 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getActivationCode() {
-        return activationCode;
+    public List<Long> getClassIds() {
+        return classIds;
     }
 
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
+    }
+
+    public List<Long> getSubjectIds() {
+        return subjectIds;
+    }
+
+    public void setSubjectIds(List<Long> subjectIds) {
+        this.subjectIds = subjectIds;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     public boolean isEnabled() {
@@ -84,28 +102,19 @@ public class UserDTO {
         isEnabled = enabled;
     }
 
-    public Group getGroup() {
-        return group;
+    public String getActivationCode() {
+        return activationCode;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
-    public Set<Class> getClasses() {
-        return classes;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setClasses(Set<Class> classes) {
-        this.classes = classes;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
-
-    public Set<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(Set<Subject> subjects) {
-        this.subjects = subjects;
-    }
-    // endregion
 }

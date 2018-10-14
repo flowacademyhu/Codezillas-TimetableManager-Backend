@@ -1,35 +1,55 @@
 package hu.flowacademy.timetablemanager.service;
 
-import hu.flowacademy.timetablemanager.model.User;
+import hu.flowacademy.timetablemanager.model.*;
+import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private GroupService groupService;
 
-    public List<User> users = new ArrayList<>();
+    @Autowired
+    private ClassService classService;
+
+    @Autowired
+    private SubjectService subjectService;
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserDTO save(UserDTO userDTO) {
         User entity = toEntity(userDTO);
         return toDto(userRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return toDto(userRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
                 .map(this::toDto).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public User findOneDirect(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public void delete(Long id) {
@@ -46,13 +66,23 @@ public class UserService {
             return null;
         }
         UserDTO userDTO = new UserDTO();
+
         userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
-        // userDTO.setRoles(user.getRoles());
         userDTO.setName(user.getName());
         userDTO.setNickname(user.getNickname());
-        userDTO.setGroupID(user.getGroup().getId());
+        userDTO.setEnabled(user.isEnabled());
+        userDTO.setActivationCode(user.getActivationCode());
+        userDTO.setGroupId(Optional.ofNullable(user.getGroup())
+                .map(Group::getId).orElse(null));
+        userDTO.setClassIds(user.getClasses()
+                .stream().map(Class::getId)
+                .collect(Collectors.toList()));
+        userDTO.setSubjectIds(user.getSubjects()
+                .stream().map(Subject::getId)
+                .collect(Collectors.toList()));
+        userDTO.setRoles(user.getRoles().stream().map(Role::getRole).collect(Collectors.toList()));
         return userDTO;
     }
 
@@ -61,13 +91,22 @@ public class UserService {
             return null;
         }
         User user = new User();
+
         user.setId(userDTO.getId());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        // user.setRoles(userDTO.getRoles());
         user.setName(userDTO.getName());
         user.setNickname(userDTO.getNickname());
-        // user.setGroup(userDTO.getGroupID());
+        user.setEnabled(userDTO.isEnabled());
+        user.setActivationCode(userDTO.getActivationCode());
+        user.setClasses(userDTO.getClassIds()
+                .stream().map(classId -> classService.findOneDirect(classId))
+                .collect(Collectors.toList()));
+        user.setSubjects(userDTO.getSubjectIds()
+                .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
+                .collect(Collectors.toList()));
+        user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
+        //user.setRoles(user.getRoles());
         return user;
     }
 }

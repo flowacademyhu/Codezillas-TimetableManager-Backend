@@ -1,5 +1,8 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GroupDTO {
 
     private Long id;
@@ -7,6 +10,10 @@ public class GroupDTO {
     private String name;
 
     private String location;
+
+    private List<Long> userIds = new ArrayList<>();
+
+    private List<Long> classIds= new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -30,5 +37,21 @@ public class GroupDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public List<Long> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
+    }
+
+    public List<Long> getClassIds() {
+        return classIds;
+    }
+
+    public void setClassIds(List<Long> classIds) {
+        this.classIds = classIds;
     }
 }

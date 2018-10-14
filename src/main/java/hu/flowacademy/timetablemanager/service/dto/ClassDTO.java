@@ -1,5 +1,10 @@
 package hu.flowacademy.timetablemanager.service.dto;
 
+import hu.flowacademy.timetablemanager.model.Class;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClassDTO {
 
     private Long id;
@@ -10,11 +15,12 @@ public class ClassDTO {
 
     private String comment;
 
-    private Long fk_id_mentor_many_to_many;
-
-    private Long fk_id_subject;
-
-    private Long fk_id_group;
+    //Should be mentor names or mentor(user) objects
+    private List<Long> mentorIds = new ArrayList<>();
+    //Should be subject objects
+    private Long subjectId;
+    //Should be group object or name
+    private Long groupId;
 
     public Long getId() {
         return id;
@@ -48,28 +54,28 @@ public class ClassDTO {
         this.comment = comment;
     }
 
-    public Long getFk_id_mentor_many_to_many() {
-        return fk_id_mentor_many_to_many;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
-    public void setFk_id_mentor_many_to_many(Long fk_id_mentor_many_to_many) {
-        this.fk_id_mentor_many_to_many = fk_id_mentor_many_to_many;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 
-    public Long getFk_id_subject() {
-        return fk_id_subject;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setFk_id_subject(Long fk_id_subject) {
-        this.fk_id_subject = fk_id_subject;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
-    public Long getFk_id_group() {
-        return fk_id_group;
+    public List<Long> getMentorIds() {
+        return mentorIds;
     }
 
-    public void setFk_id_group(Long fk_id_group) {
-        this.fk_id_group = fk_id_group;
+    public void setMentorIds(List<Long> mentorIds) {
+        this.mentorIds = mentorIds;
     }
 }
 

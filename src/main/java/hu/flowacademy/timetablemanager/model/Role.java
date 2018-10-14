@@ -9,15 +9,14 @@ import java.util.Set;
 public class Role {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<User>();
-
-    private Role() {}
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -41,10 +40,5 @@ public class Role {
 
     public void setUsers(Set<User> users) {
         this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "Role [id=" + id + ", role=" + role +"]";
     }
 }

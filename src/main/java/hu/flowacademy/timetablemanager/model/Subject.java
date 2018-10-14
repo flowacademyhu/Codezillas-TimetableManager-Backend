@@ -1,7 +1,7 @@
 package hu.flowacademy.timetablemanager.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,26 +9,26 @@ import java.util.List;
 public class Subject {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String title;
 
-    @Column(unique = true, nullable = false)
+    @Column()
     private String color;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private List<Class> classes;
+    @OneToMany(mappedBy = "subject")
+    private List<Class> classes = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(
             inverseJoinColumns =
             @JoinColumn(name = "subject_id"),
             joinColumns =
             @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     public Long getId() {
         return id;

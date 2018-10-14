@@ -1,7 +1,11 @@
 package hu.flowacademy.timetablemanager.model;
 
+import hu.flowacademy.timetablemanager.service.dto.UserRole;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,11 +13,22 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @Column
     private String name;
@@ -21,39 +36,22 @@ public class User {
     @Column
     private String nickname;
 
-    @Column(nullable = false)
-    private String password;
-
     @Column
     private String activationCode;
 
     @Column(nullable = false)
     private boolean isEnabled;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    private Set<Role> roles = new HashSet<Role>();
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Class> classes;
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Class> classes = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "subject_users",
-            joinColumns = {@JoinColumn(name = "subject_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<Subject> subjects;
+    @ManyToMany(mappedBy = "users",  fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Subject> subjects = new ArrayList<>();
 
-    // region Getters & Setters
     public String getName() {
         return name;
     }
@@ -99,6 +97,10 @@ public class User {
         roles.add(role);
     }
 
+    public void setRoles(List<Role> roles) {
+        this.roles = new HashSet<>(roles);
+    }
+
     public Group getGroup() {
         return group;
     }
@@ -130,5 +132,20 @@ public class User {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
-    // endregion
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
 }
