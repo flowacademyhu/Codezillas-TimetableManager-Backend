@@ -48,6 +48,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserDTO findByEmail(String email) {
+        return toDto(userRepository.findByEmail(email));
+    }
+
+    @Transactional(readOnly = true)
     public User findOneDirect(Long id) {
         return userRepository.findById(id).orElse(null);
     }
