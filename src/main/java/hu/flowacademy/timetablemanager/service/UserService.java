@@ -2,6 +2,7 @@ package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.model.Class;
+import hu.flowacademy.timetablemanager.repository.RoleRepository;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserService {
 
     @Autowired
     private SubjectService subjectService;
+
+    @Autowired
+    private RoleService roleService;
 
     private final UserRepository userRepository;
 
@@ -87,7 +91,7 @@ public class UserService {
         userDTO.setSubjectIds(user.getSubjects()
                 .stream().map(Subject::getId)
                 .collect(Collectors.toList()));
-        userDTO.setRoles(user.getRoles().stream().map(Role::getRole).collect(Collectors.toList()));
+        userDTO.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
         return userDTO;
     }
 
@@ -111,7 +115,9 @@ public class UserService {
                 .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
                 .collect(Collectors.toList()));
         user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
-        //user.setRoles(user.getRoles());
+        user.setRoles(userDTO.getRoles()
+                .stream().map(role -> roleService.findOneDirectByName(role))
+                .collect(Collectors.toList()));
         return user;
     }
 }
