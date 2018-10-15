@@ -1,5 +1,6 @@
 package hu.flowacademy.timetablemanager.service.authentication;
 
+import hu.flowacademy.timetablemanager.config.SecurityConfig;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.service.UserService;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
@@ -41,5 +42,13 @@ public class AuthService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User actualUser = customUDS.findByEmail(email);
         return userService.findOne(actualUser.getId());
+    }
+
+    public UserDTO addNewActiveUser(UserDTO userDTO) {
+        UserDTO newUser = userDTO;
+        newUser.setEnabled(true);
+        newUser.setActivationCode("");
+        newUser.setPassword(SecurityConfig.passwordEncoder.encode(userDTO.getPassword()));
+        return newUser;
     }
 }

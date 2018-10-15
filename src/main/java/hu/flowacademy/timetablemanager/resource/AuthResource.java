@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+//@RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class AuthResource {
     private final AuthService authService;
@@ -28,6 +28,15 @@ public class AuthResource {
     @GetMapping("/")
     public String root() {
         return "/";
+    }
+
+    @PostMapping("/addactiveuser")
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO newUser = authService.addNewActiveUser(userDTO);
+        if (newUser != null) {
+            return new ResponseEntity<>(newUser, HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/createuser")
