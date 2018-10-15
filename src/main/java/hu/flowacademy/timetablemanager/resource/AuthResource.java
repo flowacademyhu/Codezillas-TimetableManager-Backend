@@ -1,6 +1,6 @@
 package hu.flowacademy.timetablemanager.resource;
 
-import hu.flowacademy.timetablemanager.service.AuthService;
+import hu.flowacademy.timetablemanager.service.authentication.AuthService;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

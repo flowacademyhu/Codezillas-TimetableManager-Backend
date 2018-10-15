@@ -1,10 +1,11 @@
-package hu.flowacademy.timetablemanager.service;
+package hu.flowacademy.timetablemanager.service.authentication;
 
 import hu.flowacademy.timetablemanager.config.SecurityConfig;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.repository.GroupRepository;
 import hu.flowacademy.timetablemanager.repository.RoleRepository;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
+import hu.flowacademy.timetablemanager.service.UserService;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,7 @@ public class CustomUserDetailsService implements IServiceForAuth, UserDetailsSer
         result.setEnabled(false);
         result.setPassword(" ");
         result.setGroup(groupRepository.getOne(groupId));
-        result.addRole(roleRepository.findByRole("USER"));
+        result.addRole(roleRepository.findByName("USER"));
         return result;
     }
 

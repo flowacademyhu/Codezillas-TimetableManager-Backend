@@ -1,4 +1,4 @@
-package hu.flowacademy.timetablemanager.service;
+package hu.flowacademy.timetablemanager.service.authentication;
 
 import hu.flowacademy.timetablemanager.model.Role;
 import hu.flowacademy.timetablemanager.model.User;
