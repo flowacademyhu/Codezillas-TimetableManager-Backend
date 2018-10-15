@@ -29,8 +29,8 @@ public class GroupResource {
     }
 
     @GetMapping("/{id}/users")
-    public ResponseEntity<List<UserDTO>> findUsersByGroupId(@PathVariable Long groupId) {
-        return ResponseEntity.ok(userService.findAllByGroupId(groupId));
+    public ResponseEntity<List<UserDTO>> findUsersByGroupId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findAllByGroupId(id));
     }
 
     @GetMapping("/{id}")
