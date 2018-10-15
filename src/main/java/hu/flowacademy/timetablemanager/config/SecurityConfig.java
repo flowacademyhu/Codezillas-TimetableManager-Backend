@@ -12,36 +12,47 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.exceptionHandling().defaultAuthenticationEntryPointFor(getRestAuthEntryPoint(), new AntPathRequestMatcher("**"));
         httpSecurity
-                .cors().and()
-                .csrf().disable()
-//                .authenticationProvider(new CustomAuthenticationProvider())
+                .cors()
+//                    .disable()
+                    .and()
+                .csrf()
+                    .disable()
+                .exceptionHandling()
+                    .authenticationEntryPoint(unauthorizedHandler())
+                    .and()
+//                .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                    .and()
                 .authorizeRequests()
 //                .antMatchers("/**").permitAll()
-                .antMatchers("/", "/login", "/registration", "/createUser").permitAll()
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/", "/login", "/registration", "/createUser", "/addactiveuser")
+                        .permitAll()
+                .antMatchers("/admin/**")
+                    .hasAnyAuthority("ADMIN")
+                .antMatchers("/**")
+                    .hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated()
-                .and()
+                    .and()
                 .formLogin()
-                .loginPage("/login")
-                .and()
-                .httpBasic();
+                .successHandler(new CustomAuthenticationSuccessHandler())
+                .failureHandler(new CustomAuthenticationFailureHandler());
+//        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    private AuthenticationEntryPoint getRestAuthEntryPoint() {
+//    private Filter jwtAuthenticationFilter() {
+//    }
+
+    private AuthenticationEntryPoint unauthorizedHandler() {
         return new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
     }
 
@@ -77,3 +88,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 }
+
