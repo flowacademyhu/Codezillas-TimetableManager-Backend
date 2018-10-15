@@ -20,7 +20,7 @@ public class ClassResource {
         this.classService = classService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<ClassDTO>> findAll() {
         return ResponseEntity.ok(classService.findAll());
     }
