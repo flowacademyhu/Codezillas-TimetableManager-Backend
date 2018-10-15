@@ -23,10 +23,8 @@ public class EmailService {
     }
 
     public boolean sendMessage(String emailTo) {
-
-        SimpleMailMessage message = null;
+        SimpleMailMessage message = new SimpleMailMessage();
         try {
-            message = new SimpleMailMessage();
             message.setFrom(MESSAGE_FROM);
             message.setTo(emailTo);
             message.setSubject("Aktivációs üzenet!");
@@ -43,11 +41,11 @@ public class EmailService {
         String activationString = user.getActivationCode();
 //        String link = "<a href=\"WWW.google.es\">ACTIVAR CUENTA</a>";
         return "Kedves 'hallgatónk', \n" +
-                "kérjük hogy az alábbi linkre kattintva, aktiváld ezt a regisztrációs folyamatot," +
-                "hogy a továbbiakban hozzáférhess az órarendjeidhez. \n\n" +
-                "http://www.flow.timetable-manager.hu/reg?" + activationString + "\n\n" +
-                "vagy...\n\n" +
-                "http://localhost:4200/regisztracio?" + activationString + "\n\n" +
+                "kérünk téged, hogy az alábbi linkre kattintva, aktiváld ezt a regisztrációs folyamatot,\n" +
+                "hogy a továbbiakban hozzáférhess az applikációhoz, és ezáltal az órarendjeidhez. \n\n" +
+                "http://www.flow.timetable-manager.hu/registration?" + activationString + "\n" +
+                "vagy...\n" +
+                "http://localhost:4200/registration?" + activationString + "\n\n" +
                 "Köszönettel,\n" + "A 'Flow Academy' csapata";
     }
 }
