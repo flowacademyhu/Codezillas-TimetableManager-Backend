@@ -1,7 +1,5 @@
 package hu.flowacademy.timetablemanager.model;
 
-import hu.flowacademy.timetablemanager.service.dto.UserRole;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;

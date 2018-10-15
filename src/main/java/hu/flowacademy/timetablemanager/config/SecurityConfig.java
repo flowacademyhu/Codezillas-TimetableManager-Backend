@@ -1,6 +1,6 @@
 package hu.flowacademy.timetablemanager.config;
 
-import hu.flowacademy.timetablemanager.service.CustomUserDetailsService;
+import hu.flowacademy.timetablemanager.service.authentication.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

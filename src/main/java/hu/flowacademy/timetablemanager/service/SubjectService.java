@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ClassService classService;
+    private ClassService classService;
 
     private final SubjectRepository subjectRepository;
 

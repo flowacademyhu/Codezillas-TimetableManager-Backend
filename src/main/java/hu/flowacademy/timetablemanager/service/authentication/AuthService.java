@@ -1,7 +1,8 @@
-package hu.flowacademy.timetablemanager.service;
+package hu.flowacademy.timetablemanager.service.authentication;
 
 import hu.flowacademy.timetablemanager.config.SecurityConfig;
 import hu.flowacademy.timetablemanager.model.User;
+import hu.flowacademy.timetablemanager.service.UserService;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

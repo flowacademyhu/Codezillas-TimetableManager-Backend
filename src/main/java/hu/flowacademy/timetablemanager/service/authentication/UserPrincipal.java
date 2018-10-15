@@ -1,4 +1,4 @@
-package hu.flowacademy.timetablemanager.service;
+package hu.flowacademy.timetablemanager.service.authentication;
 
 import hu.flowacademy.timetablemanager.model.Role;
 import hu.flowacademy.timetablemanager.model.User;
@@ -22,7 +22,7 @@ public class UserPrincipal implements UserDetails {
         Collection<GrantedAuthority> authorities = new HashSet<>();
         Set<Role> roles = user.getRoles();
         for (Role role: roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole() ));
+            authorities.add(new SimpleGrantedAuthority(role.getName() ));
         }
         return authorities;
     }
