@@ -9,8 +9,6 @@ public class GroupDTO {
 
     private String name;
 
-    private String location;
-
     private List<Long> userIds = new ArrayList<>();
 
     private List<Long> classIds= new ArrayList<>();
@@ -29,14 +27,6 @@ public class GroupDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public List<Long> getUserIds() {
