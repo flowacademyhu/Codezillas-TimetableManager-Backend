@@ -23,69 +23,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .cors()
-//                    .disable()
                     .and()
                 .csrf()
                     .disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler())
-                    .and()
-//                .sessionManagement()
-//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    .and()
                 .authorizeRequests()
-//                .antMatchers("/**").permitAll()
                 .antMatchers("/", "/login", "/registration", "/createUser", "/addactiveuser")
-                        .permitAll()
+                    .permitAll()
                 .antMatchers("/admin/**")
                     .hasAnyAuthority("ADMIN")
                 .antMatchers("/**")
                     .hasAnyAuthority("USER", "ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest()
+                    .authenticated()
                     .and()
                 .formLogin()
-                .successHandler(new CustomAuthenticationSuccessHandler())
-                .failureHandler(new CustomAuthenticationFailureHandler());
-//        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .loginProcessingUrl("/login")
+                    .successHandler(new CustomAuthenticationSuccessHandler())
+                    .failureHandler(new CustomAuthenticationFailureHandler())
+                    .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(unauthorizedHandler());
     }
-
-//    private Filter jwtAuthenticationFilter() {
-//    }
 
     private AuthenticationEntryPoint unauthorizedHandler() {
         return new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
     }
 
-//    @Component
-//    public class CustomAuthenticationProvider implements AuthenticationProvider {
-//        @Override
-//        public Authentication authenticate(Authentication auth)
-//                throws AuthenticationException {
-//            String username = auth.getName();
-//            String password = passwordEncoder.encode(auth.getCredentials().toString());
-//            if ("externaluser".equals(username) && "pass".equals(password)) {
-//                return new UsernamePasswordAuthenticationToken
-//                        (username, password, Collections.emptyList());
-//            } else {
-//                throw new
-//                        BadCredentialsException("External system authentication failed");
-//            }
-//        }
-//
-//        @Override
-//        public boolean supports(Class<?> auth) {
-//            return (UsernamePasswordAuthenticationToken.class
-//                    .isAssignableFrom(auth));
-//        }
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
 }
-
