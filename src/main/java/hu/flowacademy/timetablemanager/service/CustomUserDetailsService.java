@@ -18,17 +18,19 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class CustomUserDetailsService implements AuthService, UserDetailsService {
+public class CustomUserDetailsService implements IServiceForAuth, UserDetailsService {
     private UserRepository userRepository;
     private GroupRepository groupRepository;
     private RoleRepository roleRepository;
-    PasswordEncoder passwordEncoder = SecurityConfig.passwordEncoder;
+    private UserService userService;
+    private PasswordEncoder passwordEncoder = SecurityConfig.passwordEncoder;
 
     @Autowired
-    public CustomUserDetailsService(UserRepository userRepository, GroupRepository groupRepository, RoleRepository roleRepository) {
+    public CustomUserDetailsService(UserRepository userRepository, GroupRepository groupRepository, RoleRepository roleRepository, UserService userService) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.roleRepository = roleRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -46,7 +48,8 @@ public class CustomUserDetailsService implements AuthService, UserDetailsService
     }
 
     @Override
-    public boolean activateUser(User user, UserDTO userDTO) {
+    public UserDTO activateUser(UserDTO userDTO) {
+        User user = userRepository.findByEmail(userDTO.getEmail());
         if (userDTO.getActivationCode().equals(user.getActivationCode())) {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             user.setName(userDTO.getName());
@@ -54,30 +57,37 @@ public class CustomUserDetailsService implements AuthService, UserDetailsService
             user.setActivationCode("");
             user.setEnabled(true);
             userRepository.save(user);
-            return true;
+            return userService.findOne(user.getId());
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean createNewUser(String email, long groupId) {
-        if (userRepository.findByEmail(email) != null) { return false; }
+    public UserDTO createNewUser(String email, long groupId) {
+        UserDTO newDto = new UserDTO();
+        if (userRepository.findByEmail(email) != null) { return newDto; }
         try {
-            User newUser = new User();
-            newUser.setActivationCode(generateActivationCode());
-            newUser.setEmail(email);
-            newUser.setEnabled(false);
-            newUser.setPassword(" ");
-            newUser.setGroup(groupRepository.getOne(groupId));
-            newUser.addRole(roleRepository.findByRole("USER"));
+            User newUser = adjustUserProperties(email, groupId);
             userRepository.save(newUser);
+            newDto = userService.findOne(newUser.getId());
         } catch (Exception e) {
             throw e;
         }
-        return true;
+        return newDto;
     }
 
-    public String generateActivationCode() {
+    private User adjustUserProperties(String email, long groupId) {
+        User result = new User();
+        result.setActivationCode(generateActivationCode());
+        result.setEmail(email);
+        result.setEnabled(false);
+        result.setPassword(" ");
+        result.setGroup(groupRepository.getOne(groupId));
+        result.addRole(roleRepository.findByRole("USER"));
+        return result;
+    }
+
+    private String generateActivationCode() {
         return RandomStringUtils.randomAlphanumeric(24);
     }
 }
