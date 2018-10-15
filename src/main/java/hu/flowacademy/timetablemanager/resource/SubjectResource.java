@@ -34,10 +34,10 @@ public class SubjectResource {
         return ResponseEntity.ok(subjectService.findOne(id));
     }
 
-    @GetMapping("/{id}/users")
+/*    @GetMapping("/{id}/users")
     public ResponseEntity<List<UserDTO>> findBySubjectId(Long subjectId) {
         return ResponseEntity.ok(userService.findAllBySubjectId(subjectId));
-    }
+    }*/
 
     @PostMapping("/save")
     public ResponseEntity<SubjectDTO> save(@RequestBody SubjectDTO subjectDTO) {

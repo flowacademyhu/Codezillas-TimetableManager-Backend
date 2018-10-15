@@ -11,9 +11,9 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByGroupId(Long id);
 
-    //TODO: find by group name.
+/*    //TODO: find by group name.
     //TODO: write a query.
-    List<User> findBySubjectId(Long id);
+    List<User> findBySubjectId(Long id);*/
 
     User findByEmail(String email);
 }
