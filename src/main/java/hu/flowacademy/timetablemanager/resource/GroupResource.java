@@ -48,6 +48,4 @@ public class GroupResource {
         groupService.delete(id);
         return ResponseEntity.ok().build();
     }
-
-
 }

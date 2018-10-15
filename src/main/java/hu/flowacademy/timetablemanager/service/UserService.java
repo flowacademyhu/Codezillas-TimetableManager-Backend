@@ -56,14 +56,12 @@ public class UserService {
         return toDto(userRepository.findByEmail(email));
     }
 
-/*
     @Transactional(readOnly= true)
     public List<UserDTO> findAllBySubjectId(Long subjectId) {
-        return userRepository.findBySubjectId(subjectId)
+        return userRepository.findAllBySubjectId(subjectId)
                 .stream().map(this::toDto)
                 .collect(Collectors.toList());
     }
-*/
 
     @Transactional(readOnly = true)
     public List<UserDTO> findAllByGroupId(Long groupId) {
