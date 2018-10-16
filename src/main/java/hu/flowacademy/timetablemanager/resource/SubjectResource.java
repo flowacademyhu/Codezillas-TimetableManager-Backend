@@ -39,7 +39,7 @@ public class SubjectResource {
         return ResponseEntity.ok(userService.findAllBySubjectId(id));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<SubjectDTO> save(@RequestBody SubjectDTO subjectDTO) {
         return ResponseEntity.ok(subjectService.save(subjectDTO));
     }

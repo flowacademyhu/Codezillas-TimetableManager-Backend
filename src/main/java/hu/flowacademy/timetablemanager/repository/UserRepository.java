@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //TODO: find by group name.
 
     @Query("select u from User u " +
-            "left join u.subjects as subjects where :subject_id = subjects.id")
+            "inner join u.subjects as subjects where :subject_id = subjects.id")
     List<User> findAllBySubjectId(@Param("subject_id") Long subjectId);
 
     User findByEmail(String email);

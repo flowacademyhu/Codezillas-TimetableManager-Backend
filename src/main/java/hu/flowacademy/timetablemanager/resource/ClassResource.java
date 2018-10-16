@@ -38,7 +38,7 @@ public class ClassResource {
         return ResponseEntity.ok(classService.filter(userId, groupId, SDS, SDE));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<ClassDTO> save(@RequestBody ClassDTO classDTO) {
         return ResponseEntity.ok(classService.save(classDTO));
     }

@@ -38,7 +38,7 @@ public class GroupResource {
         return ResponseEntity.ok(groupService.findOne(id));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<GroupDTO> save(@RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.save(groupDTO));
     }
