@@ -54,11 +54,6 @@ public class GroupService {
         return groupRepository.findById(id).orElse(null);
     }
 
-    @Transactional(readOnly = true)
-    public List<UserDTO> findAllUserByGroupId(Long id) {
-        return userService.toDto(userRepository.findByGroupId(id));
-    }
-
     public void delete(Long id) {
         groupRepository.deleteById(id);
     }

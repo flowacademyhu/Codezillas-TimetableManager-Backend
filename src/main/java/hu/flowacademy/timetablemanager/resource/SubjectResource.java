@@ -1,7 +1,9 @@
 package hu.flowacademy.timetablemanager.resource;
 
 import hu.flowacademy.timetablemanager.service.SubjectService;
+import hu.flowacademy.timetablemanager.service.UserService;
 import hu.flowacademy.timetablemanager.service.dto.SubjectDTO;
+import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,14 @@ public class SubjectResource {
 
     private final SubjectService subjectService;
 
-    public SubjectResource(SubjectService subjectService){
+    private final UserService userService;
+
+    public SubjectResource(SubjectService subjectService, UserService userService) {
         this.subjectService = subjectService;
+        this.userService = userService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<SubjectDTO>> findAll() {
         return ResponseEntity.ok(subjectService.findAll());
     }
@@ -27,6 +32,11 @@ public class SubjectResource {
     @GetMapping("/{id}")
     public ResponseEntity<SubjectDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(subjectService.findOne(id));
+    }
+
+    @GetMapping("/{id}/users")
+    public ResponseEntity<List<UserDTO>> findBySubjectId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findAllBySubjectId(id));
     }
 
     @PostMapping("/save")

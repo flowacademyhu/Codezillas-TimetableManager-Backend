@@ -56,6 +56,20 @@ public class UserService {
         return toDto(userRepository.findByEmail(email));
     }
 
+    @Transactional(readOnly= true)
+    public List<UserDTO> findAllBySubjectId(Long subjectId) {
+        return userRepository.findAllBySubjectId(subjectId)
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> findAllByGroupId(Long groupId) {
+        return userRepository.findByGroupId(groupId)
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public User findOneDirect(Long id) {
         return userRepository.findById(id).orElse(null);

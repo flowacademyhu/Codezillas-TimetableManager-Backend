@@ -16,18 +16,21 @@ public class GroupResource {
 
     private final GroupService groupService;
 
+    private final UserService userService;
+
     public GroupResource(GroupService groupService, UserService userService){
         this.groupService = groupService;
+        this.userService = userService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<GroupDTO>> findAll() {
         return ResponseEntity.ok(groupService.findAll());
     }
 
-    @GetMapping("/{id}/{name}")
-    public ResponseEntity<List<UserDTO>> findOneByName(@PathVariable Long id, @PathVariable String name) {
-        return ResponseEntity.ok(groupService.findAllUserByGroupId(id));
+    @GetMapping("/{id}/users")
+    public ResponseEntity<List<UserDTO>> findUsersByGroupId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findAllByGroupId(id));
     }
 
     @GetMapping("/{id}")
@@ -45,6 +48,4 @@ public class GroupResource {
         groupService.delete(id);
         return ResponseEntity.ok().build();
     }
-
-
 }
