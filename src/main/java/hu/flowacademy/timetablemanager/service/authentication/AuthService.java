@@ -49,6 +49,6 @@ public class AuthService {
         newUser.setEnabled(true);
         newUser.setActivationCode("");
         newUser.setPassword(SecurityConfig.passwordEncoder.encode(userDTO.getPassword()));
-        return newUser;
+        return userService.save(newUser);
     }
 }

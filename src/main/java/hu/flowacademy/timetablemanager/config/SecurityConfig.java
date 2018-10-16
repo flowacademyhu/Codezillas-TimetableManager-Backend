@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsService customUDS;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginProcessingUrl("/login")
-                    .successHandler(new CustomAuthenticationSuccessHandler())
+                    .successHandler(new CustomAuthenticationSuccessHandler(customUDS))
                     .failureHandler(new CustomAuthenticationFailureHandler())
                     .and()
                 .exceptionHandling()
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(customUDS).passwordEncoder(passwordEncoder);
     }
 
     public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
