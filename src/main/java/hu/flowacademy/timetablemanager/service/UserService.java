@@ -2,16 +2,13 @@ package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.model.Class;
-import hu.flowacademy.timetablemanager.repository.ClassRepository;
-import hu.flowacademy.timetablemanager.repository.GroupRepository;
-import hu.flowacademy.timetablemanager.repository.SubjectRepository;
+import hu.flowacademy.timetablemanager.repository.RoleRepository;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +25,9 @@ public class UserService {
 
     @Autowired
     private SubjectService subjectService;
+
+    @Autowired
+    private RoleService roleService;
 
     private final UserRepository userRepository;
 
@@ -49,6 +49,25 @@ public class UserService {
     public UserDTO findOne(Long id) {
         return userRepository.findById(id)
                 .map(this::toDto).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findByEmail(String email) {
+        return toDto(userRepository.findByEmail(email));
+    }
+
+    @Transactional(readOnly= true)
+    public List<UserDTO> findAllBySubjectId(Long subjectId) {
+        return userRepository.findAllBySubjectId(subjectId)
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> findAllByGroupId(Long groupId) {
+        return userRepository.findByGroupId(groupId)
+                .stream().map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -86,7 +105,7 @@ public class UserService {
         userDTO.setSubjectIds(user.getSubjects()
                 .stream().map(Subject::getId)
                 .collect(Collectors.toList()));
-        userDTO.setRoles(user.getRoles().stream().map(Role::getRole).collect(Collectors.toList()));
+        userDTO.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
         return userDTO;
     }
 
@@ -110,7 +129,9 @@ public class UserService {
                 .stream().map(subjectId -> subjectService.findOneDirect(subjectId))
                 .collect(Collectors.toList()));
         user.setGroup(groupService.findOneDirect(userDTO.getGroupId()));
-        //user.setRoles(user.getRoles());
+        user.setRoles(userDTO.getRoles()
+                .stream().map(role -> roleService.findOneDirectByName(role))
+                .collect(Collectors.toList()));
         return user;
     }
 }

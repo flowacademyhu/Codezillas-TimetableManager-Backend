@@ -16,13 +16,10 @@ public class Group {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @Column()
-    private String location;
-
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<Class> classes = new ArrayList<>();
 
     public Long getId() {
@@ -39,14 +36,6 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public List<User> getUsers() {

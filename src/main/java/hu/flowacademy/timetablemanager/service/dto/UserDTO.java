@@ -4,9 +4,7 @@ import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.Role;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserDTO {
 
@@ -71,7 +69,6 @@ public class UserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public List<Long> getClassIds() {
         return classIds;
