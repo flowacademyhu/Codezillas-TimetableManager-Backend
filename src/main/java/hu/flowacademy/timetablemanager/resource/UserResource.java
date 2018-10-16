@@ -29,7 +29,7 @@ public class UserResource {
         return ResponseEntity.ok(userService.findOne(id));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.save(userDTO));
     }
