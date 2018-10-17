@@ -39,6 +39,12 @@ public class UserService {
         return toDto(userRepository.save(entity));
     }
 
+    public List<UserDTO> save(List<UserDTO> userDTOS) {
+        return toDto(userDTOS
+                .stream().map(userDTO -> userRepository.save(toEntity(userDTO)))
+                .collect(Collectors.toList()));
+    }
+
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return toDto(userRepository.findAll());
