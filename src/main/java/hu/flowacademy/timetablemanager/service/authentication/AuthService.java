@@ -26,16 +26,23 @@ public class AuthService {
     public UserDTO createNewUser(Map<String, String> json) {
         String withEmail = json.get("email");
         long withGroupId = Long.parseLong(json.get("groupId"));
-        return customUDS.createNewUser(withEmail, withGroupId);
-    }
+        UserDTO resultDTO = customUDS.createNewUser(withEmail, withGroupId);
+        if (resultDTO != null) { sendMail(withEmail); }
+        return resultDTO;
 
-    public UserDTO activateUser(UserDTO userDTO) {
-        return customUDS.activateUser(userDTO);
     }
 
     public boolean sendMail(Map<String, String> json) {
         String emailTo = json.get("emailTo");
-        return emailService.sendMessage(emailTo);
+        return sendMail(emailTo);
+    }
+
+    private boolean sendMail(String email) {
+        return emailService.sendMessage(email);
+    }
+
+    public UserDTO activateUser(UserDTO userDTO) {
+        return customUDS.activateUser(userDTO);
     }
 
     public UserDTO getCurrentUser() {
