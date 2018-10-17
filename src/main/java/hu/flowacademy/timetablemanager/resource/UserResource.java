@@ -34,6 +34,11 @@ public class UserResource {
         return ResponseEntity.ok(userService.save(userDTO));
     }
 
+    @PostMapping("/saveall")
+    public ResponseEntity<List<UserDTO>> save(@RequestBody List<UserDTO> userDTOS) {
+        return ResponseEntity.ok(userService.save(userDTOS));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);

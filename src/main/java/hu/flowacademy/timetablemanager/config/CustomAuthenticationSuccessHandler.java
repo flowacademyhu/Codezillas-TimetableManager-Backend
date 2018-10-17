@@ -1,6 +1,11 @@
 package hu.flowacademy.timetablemanager.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.flowacademy.timetablemanager.model.User;
+import hu.flowacademy.timetablemanager.service.authentication.CustomUserDetailsService;
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +23,13 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private final CustomUserDetailsService customUDS;
+
+    @Autowired
+    public CustomAuthenticationSuccessHandler(CustomUserDetailsService customUDS) {
+        this.customUDS = customUDS;
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -27,6 +39,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         HttpSession session = request.getSession();
         String token = session.getId();
+
         JSONObject responseObj = getResponseData(token);
 
         out.print(responseObj.toString());
@@ -34,13 +47,25 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private JSONObject getResponseData(String token) {
-
-
-        String roles = getRoles();
         Map<String, String> resultData = new HashMap<>();
         resultData.put("token", token);
-        resultData.put("roles", roles);
+        resultData.put("roles", getRoles());
+        resultData.put("user", getCurrentUserInJsonString());
         return new JSONObject(resultData);
+    }
+
+    private String getCurrentUserInJsonString() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = customUDS.findByEmail(userEmail);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = null;
+        try {
+            jsonString = mapper.writeValueAsString(customUDS.toDto(currentUser));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 
     private String getRoles() {
