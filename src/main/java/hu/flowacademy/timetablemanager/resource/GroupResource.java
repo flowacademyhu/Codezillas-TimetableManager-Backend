@@ -13,10 +13,9 @@ import java.util.List;
 @RequestMapping("/groups")
 @CrossOrigin(origins = "http://localhost:4200")
 public class GroupResource {
-/*    @Autowired*/
+
     private final GroupService groupService;
 
-/*    @Autowired*/
     private final UserService userService;
 
     public GroupResource(GroupService groupService, UserService userService){
@@ -24,17 +23,14 @@ public class GroupResource {
         this.userService = userService;
     }
 
-
-
-
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<GroupDTO>> findAll() {
         return ResponseEntity.ok(groupService.findAll());
     }
 
-    @GetMapping("/{id}/{name}")
-    public ResponseEntity<List<UserDTO>> findOneByName(@PathVariable Long id, @PathVariable String name) {
-        return ResponseEntity.ok(groupService.findAllUserByGroupId(id));
+    @GetMapping("/{id}/users")
+    public ResponseEntity<List<UserDTO>> findUsersByGroupId(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findAllByGroupId(id));
     }
 
     @GetMapping("/{id}")
@@ -42,7 +38,7 @@ public class GroupResource {
         return ResponseEntity.ok(groupService.findOne(id));
     }
 
-    @PostMapping("/save")
+    @PostMapping("/")
     public ResponseEntity<GroupDTO> save(@RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.save(groupDTO));
     }
@@ -52,6 +48,4 @@ public class GroupResource {
         groupService.delete(id);
         return ResponseEntity.ok().build();
     }
-
-
 }

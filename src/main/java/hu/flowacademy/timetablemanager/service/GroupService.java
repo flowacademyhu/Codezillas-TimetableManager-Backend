@@ -54,11 +54,6 @@ public class GroupService {
         return groupRepository.findById(id).orElse(null);
     }
 
-    @Transactional(readOnly = true)
-    public List<UserDTO> findAllUserByGroupId(Long id) {
-        return userService.toDto(userRepository.findByGroupId(id));
-    }
-
     public void delete(Long id) {
         groupRepository.deleteById(id);
     }
@@ -77,7 +72,6 @@ public class GroupService {
         GroupDTO groupDTO = new GroupDTO();
         groupDTO.setId(group.getId());
         groupDTO.setName(group.getName());
-        groupDTO.setLocation(group.getLocation());
         groupDTO.setUserIds(group.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
@@ -94,7 +88,6 @@ public class GroupService {
         Group group = new Group();
         group.setId(groupDTO.getId());
         group.setName(groupDTO.getName());
-        group.setLocation(groupDTO.getLocation());
         group.setUsers(groupDTO.getUserIds()
                 .stream().map(userId -> userService.findOneDirect(userId))
                 .collect(Collectors.toList()));

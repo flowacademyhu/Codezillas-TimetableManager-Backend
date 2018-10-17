@@ -18,7 +18,7 @@ public class Subject {
     @Column()
     private String color;
 
-    @OneToMany(mappedBy = "subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "subject")
     private List<Class> classes = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)

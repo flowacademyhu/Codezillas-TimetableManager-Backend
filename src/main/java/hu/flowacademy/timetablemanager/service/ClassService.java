@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,7 +67,7 @@ public class ClassService {
     public List<ClassDTO> filter(Long groupId, Long startDateStart, Long startDateEnd) {
         return toDto(classRepository.filter(groupId, startDateStart, startDateEnd));
     }
-    //TODO: with userid null res.
+
     @Transactional(readOnly = true)
     public List<ClassDTO> filter(Long userId, Long groupId, Long startDateStart, Long startDateEnd) {
         List<ClassDTO> result;

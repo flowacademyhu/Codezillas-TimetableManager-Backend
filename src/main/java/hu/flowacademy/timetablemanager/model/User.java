@@ -1,7 +1,5 @@
 package hu.flowacademy.timetablemanager.model;
 
-import hu.flowacademy.timetablemanager.service.dto.UserRole;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +20,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -90,6 +88,11 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        if (this.roles == null || this.roles.isEmpty()) { this.roles = new HashSet<>(); }
+        roles.add(role);
     }
 
     public void setRoles(List<Role> roles) {
