@@ -24,9 +24,9 @@ public class Subject {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(
             inverseJoinColumns =
-            @JoinColumn(name = "subject_id"),
+            @JoinColumn(name = "user_id"),
             joinColumns =
-            @JoinColumn(name = "user_id")
+            @JoinColumn(name = "subject_id")
     )
     private List<User> users = new ArrayList<>();
 

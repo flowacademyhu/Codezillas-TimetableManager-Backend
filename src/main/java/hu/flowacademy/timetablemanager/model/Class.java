@@ -32,9 +32,9 @@ public class Class {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(
             inverseJoinColumns =
-                @JoinColumn(name = "class_id"),
+                @JoinColumn(name = "user_id"),
             joinColumns =
-                @JoinColumn(name = "user_id")
+                @JoinColumn(name = "class_id")
     )
     private List<User> users = new ArrayList<>();
 
