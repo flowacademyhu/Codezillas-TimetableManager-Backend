@@ -14,8 +14,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByGroupId(Long id);
 
-    //TODO: find by group name.
-
     @Query("select u from User u " +
             "inner join u.subjects as subjects where :subject_id = subjects.id")
     List<User> findAllBySubjectId(@Param("subject_id") Long subjectId);
