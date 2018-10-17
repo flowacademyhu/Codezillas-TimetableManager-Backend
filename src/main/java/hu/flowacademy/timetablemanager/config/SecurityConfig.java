@@ -12,12 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.header.HeaderWriter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUDS;
+    private HeaderWriter cacheControl;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -26,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .csrf()
                     .disable()
+                .headers()
+                    .cacheControl().disable()
+                    .and()
                 .authorizeRequests()
                 .antMatchers("/", "/login", "/registration", "/createUser", "/addactiveuser")
                     .permitAll()
@@ -55,4 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
+
 }
