@@ -40,9 +40,9 @@ public class UserService {
     }
 
     public List<UserDTO> save(List<UserDTO> userDTOS) {
-        return toDto(userDTOS
-                .stream().map(userDTO -> userRepository.save(toEntity(userDTO)))
-                .collect(Collectors.toList()));
+        return userDTOS
+                .stream().map(this::save)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
