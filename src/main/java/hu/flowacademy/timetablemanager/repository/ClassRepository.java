@@ -22,6 +22,4 @@ public interface ClassRepository extends JpaRepository<Class, Long> {
     List<Class> filter(@Param("group_id") Long groupId,
                        @Param("start_date_start") Long startDateStart,
                        @Param("start_date_end") Long StartDateEnd);
-
-
 }
