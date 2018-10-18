@@ -1,8 +1,7 @@
 package hu.flowacademy.timetablemanager.service;
 
-import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.model.Class;
-import hu.flowacademy.timetablemanager.repository.RoleRepository;
+import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,5 +132,9 @@ public class UserService {
                 .stream().map(role -> roleService.findOneDirectByName(role))
                 .collect(Collectors.toList()));
         return user;
+    }
+
+    public boolean isValidActivationCode(String activationCode) {
+        return userRepository.findByActivationCode(activationCode) != null;
     }
 }

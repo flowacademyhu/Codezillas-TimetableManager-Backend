@@ -30,7 +30,7 @@ public class AuthService {
     }
 
     public UserDTO activateUser(UserDTO userDTO) {
-        return customUDS.activateUser(userDTO);
+            return customUDS.activateUser(userDTO);
     }
 
     public boolean sendMail(Map<String, String> json) {
@@ -50,5 +50,9 @@ public class AuthService {
         newUser.setActivationCode("");
         newUser.setPassword(SecurityConfig.passwordEncoder.encode(userDTO.getPassword()));
         return newUser;
+    }
+
+    public boolean checkActivationCode(String activationCode) {
+        return userService.isValidActivationCode(activationCode);
     }
 }
