@@ -98,6 +98,7 @@ public class UserService {
         if (user == null) {
             return null;
         }
+
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
@@ -116,6 +117,7 @@ public class UserService {
                 .stream().map(Subject::getId)
                 .collect(Collectors.toList()));
         userDTO.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+
         return userDTO;
     }
 
@@ -123,6 +125,7 @@ public class UserService {
         if (userDTO == null) {
             return null;
         }
+
         User user = new User();
 
         user.setId(userDTO.getId());
@@ -142,6 +145,7 @@ public class UserService {
         user.setRoles(userDTO.getRoles()
                 .stream().map(role -> roleService.findOneDirectByName(role))
                 .collect(Collectors.toList()));
+
         return user;
     }
 

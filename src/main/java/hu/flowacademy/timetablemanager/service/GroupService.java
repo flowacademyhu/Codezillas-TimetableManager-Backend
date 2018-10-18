@@ -71,7 +71,9 @@ public class GroupService {
         if (group == null) {
             return null;
         }
+
         GroupDTO groupDTO = new GroupDTO();
+
         groupDTO.setId(group.getId());
         groupDTO.setName(group.getName());
         groupDTO.setUserIds(group.getUsers()
@@ -80,6 +82,7 @@ public class GroupService {
         groupDTO.setClassIds(group.getClasses()
                 .stream().map(Class::getId)
                 .collect(Collectors.toList()));
+
         return groupDTO;
     }
 
@@ -87,7 +90,9 @@ public class GroupService {
         if (groupDTO == null) {
             return null;
         }
+
         Group group = new Group();
+
         group.setId(groupDTO.getId());
         group.setName(groupDTO.getName());
         group.setUsers(groupDTO.getUserIds()
