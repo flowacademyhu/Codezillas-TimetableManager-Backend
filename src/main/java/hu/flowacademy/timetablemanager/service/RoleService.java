@@ -71,12 +71,15 @@ public class RoleService {
         if (role == null) {
             return null;
         }
+
         RoleDTO roleDTO = new RoleDTO();
+
         roleDTO.setId(role.getId());
         roleDTO.setName(role.getName());
         roleDTO.setUserIds(role.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
+
         return roleDTO;
     }
 
@@ -84,12 +87,15 @@ public class RoleService {
         if (roleDTO == null) {
             return null;
         }
+
         Role role = new Role();
+
         role.setId(roleDTO.getId());
         role.setName(roleDTO.getName());
         role.setUsers(roleDTO.getUserIds()
                 .stream().map(userId -> userService.findOneDirect(userId))
                 .collect(Collectors.toList()));
+
         return role;
     }
 }
