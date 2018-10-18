@@ -1,13 +1,11 @@
 package hu.flowacademy.timetablemanager.service;
 
-import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.model.*;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +37,12 @@ public class UserService {
         return toDto(userRepository.save(entity));
     }
 
+    public List<UserDTO> save(List<UserDTO> userDTOS) {
+        return userDTOS
+                .stream().map(this::save)
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public List<UserDTO> findAll() {
         return toDto(userRepository.findAll());
@@ -64,6 +68,12 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserDTO> findAllByGroupId(Long groupId) {
+        if(groupId == 0) {
+            return userRepository.findAllWithoutGroupId()
+                    .stream().map(this::toDto)
+                    .collect(Collectors.toList());
+        }
+
         return userRepository.findByGroupId(groupId)
                 .stream().map(this::toDto)
                 .collect(Collectors.toList());

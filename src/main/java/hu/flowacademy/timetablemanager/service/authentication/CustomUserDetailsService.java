@@ -90,4 +90,8 @@ public class CustomUserDetailsService implements IServiceForAuth, UserDetailsSer
     private String generateActivationCode() {
         return RandomStringUtils.randomAlphanumeric(24);
     }
+
+    public UserDTO toDto (User user) {
+        return userService.findOne(user.getId());
+    }
 }
