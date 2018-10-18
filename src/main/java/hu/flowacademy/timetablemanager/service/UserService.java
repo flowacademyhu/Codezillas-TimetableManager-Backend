@@ -1,6 +1,7 @@
 package hu.flowacademy.timetablemanager.service;
 
 import hu.flowacademy.timetablemanager.model.*;
+import hu.flowacademy.timetablemanager.model.Class;
 import hu.flowacademy.timetablemanager.repository.UserRepository;
 import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;

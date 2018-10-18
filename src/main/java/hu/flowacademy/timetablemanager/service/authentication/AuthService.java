@@ -30,10 +30,6 @@ public class AuthService {
         if (resultDTO != null) { sendMail(withEmail); }
         return resultDTO;
     }
-  
-    public UserDTO activateUser(UserDTO userDTO) {
-            return customUDS.activateUser(userDTO);
-    }
 
     public boolean sendMail(Map<String, String> json) {
         String emailTo = json.get("emailTo");
