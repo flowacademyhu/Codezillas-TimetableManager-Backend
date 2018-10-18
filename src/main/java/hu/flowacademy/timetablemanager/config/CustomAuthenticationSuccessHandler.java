@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.flowacademy.timetablemanager.model.User;
 import hu.flowacademy.timetablemanager.service.authentication.CustomUserDetailsService;
+import hu.flowacademy.timetablemanager.service.dto.UserDTO;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -50,22 +51,30 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Map<String, String> resultData = new HashMap<>();
         resultData.put("token", token);
         resultData.put("roles", getRoles());
-        resultData.put("user", getCurrentUserInJsonString());
+        resultData.put("userId", getUserIdInString());
+//        resultData.put("user", getCurrentUserInJsonString()); // resend userDTO in json
         return new JSONObject(resultData);
     }
 
     private String getCurrentUserInJsonString() {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = customUDS.findByEmail(userEmail);
-
+        UserDTO responseDTO = customUDS.toDto(currentUser);
+        responseDTO.setPassword(""); // clear password field!
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = null;
+        String jsonString = "";
         try {
-            jsonString = mapper.writeValueAsString(customUDS.toDto(currentUser));
+            jsonString = mapper.writeValueAsString(responseDTO);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return jsonString;
+    }
+
+    private String getUserIdInString() {
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = customUDS.findByEmail(userEmail);
+        return String.valueOf(currentUser.getId());
     }
 
     private String getRoles() {
