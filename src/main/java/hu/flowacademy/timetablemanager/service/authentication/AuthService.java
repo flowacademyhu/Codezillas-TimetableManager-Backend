@@ -29,7 +29,10 @@ public class AuthService {
         UserDTO resultDTO = customUDS.createNewUser(withEmail, withGroupId);
         if (resultDTO != null) { sendMail(withEmail); }
         return resultDTO;
-
+    }
+  
+    public UserDTO activateUser(UserDTO userDTO) {
+            return customUDS.activateUser(userDTO);
     }
 
     public boolean sendMail(Map<String, String> json) {
@@ -57,5 +60,9 @@ public class AuthService {
         newUser.setActivationCode("");
         newUser.setPassword(SecurityConfig.passwordEncoder.encode(userDTO.getPassword()));
         return userService.save(newUser);
+    }
+
+    public boolean checkActivationCode(String activationCode) {
+        return userService.isValidActivationCode(activationCode);
     }
 }
