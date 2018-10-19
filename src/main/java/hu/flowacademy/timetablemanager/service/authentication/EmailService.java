@@ -40,12 +40,12 @@ public class EmailService {
         User user = userRepo.findByEmail(emailTo);
         String activationString = user.getActivationCode();
 //        String link = "<a href=\"WWW.google.es\">ACTIVAR CUENTA</a>";
-        return "Kedves 'hallgatónk', \n" +
-                "kérünk téged, hogy az alábbi linkre kattintva, aktiváld ezt a regisztrációs folyamatot,\n" +
-                "hogy a továbbiakban hozzáférhess az applikációhoz, és ezáltal az órarendjeidhez. \n\n" +
-                "http://www.flow.timetable-manager.hu/registration?" + activationString + "\n" +
-                "vagy...\n" +
-                "http://localhost:4200/registration?" + activationString + "\n\n" +
+        return "Kedves 'új felhasználónk', \n" +
+                "Az alábbi linken a regisztációs gombot megnyomva tudod aktiválni az accountodat. " +
+                "A regisztrációs folyamat sikeres befejezéséhez, minden mezőt ki kell töltened, " +
+                "és meg kell adnod a következő aktiváló kódot: " + activationString + "\n\n" +
+                "/Az accountot az alábbi email-címmel regisztáltuk: " + emailTo + " / \n\n" +
+                "A weboldalunk címe:" + "http://localhost:4200/" +"\n\n" +
                 "Köszönettel,\n" + "A 'Flow Academy' csapata";
     }
 }
