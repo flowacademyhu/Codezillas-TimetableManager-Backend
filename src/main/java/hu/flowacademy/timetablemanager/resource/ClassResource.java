@@ -16,7 +16,7 @@ public class ClassResource {
 
     private final ClassService classService;
 
-    public ClassResource(ClassService classService){
+    public ClassResource(ClassService classService) {
         this.classService = classService;
     }
 

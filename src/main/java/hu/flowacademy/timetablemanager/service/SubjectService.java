@@ -62,7 +62,9 @@ public class SubjectService {
         if (subject == null) {
             return null;
         }
+
         SubjectDTO subjectDTO = new SubjectDTO();
+
         subjectDTO.setId(subject.getId());
         subjectDTO.setTitle(subject.getTitle());
         subjectDTO.setColor(subject.getColor());
@@ -72,6 +74,7 @@ public class SubjectService {
         subjectDTO.setUserIds(subject.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
+
         return subjectDTO;
     }
 
@@ -79,7 +82,9 @@ public class SubjectService {
         if (subjectDTO == null) {
             return null;
         }
+
         Subject subject = new Subject();
+
         subject.setId(subjectDTO.getId());
         subject.setTitle(subjectDTO.getTitle());
         subject.setColor(subjectDTO.getColor());
@@ -89,6 +94,7 @@ public class SubjectService {
         subject.setUsers(subjectDTO.getUserIds()
                 .stream().map(userId -> userService.findOneDirect(userId))
                 .collect(Collectors.toList()));
+
         return subject;
     }
 }

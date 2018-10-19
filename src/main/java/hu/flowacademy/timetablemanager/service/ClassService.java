@@ -82,7 +82,7 @@ public class ClassService {
             result = result.stream().filter(o -> o.getMentorIds().contains(userId)).collect(Collectors.toList());
         }
 
-        return  result;
+        return result;
     }
 
     private List<ClassDTO> toDto(List<Class> classes) {
@@ -93,7 +93,9 @@ public class ClassService {
         if (cls == null) {
             return null;
         }
+
         ClassDTO classDTO = new ClassDTO();
+
         classDTO.setId(cls.getId());
         classDTO.setStartDate(cls.getStartDate());
         classDTO.setEndDate(cls.getEndDate());
@@ -105,6 +107,7 @@ public class ClassService {
         classDTO.setMentorIds(cls.getUsers()
                 .stream().map(User::getId)
                 .collect(Collectors.toList()));
+
         return classDTO;
     }
 
@@ -112,7 +115,9 @@ public class ClassService {
         if (classDTO == null) {
             return null;
         }
+
         Class cls = new Class();
+
         cls.setId(classDTO.getId());
         cls.setStartDate(classDTO.getStartDate());
         cls.setEndDate(classDTO.getEndDate());
@@ -121,8 +126,8 @@ public class ClassService {
         cls.setSubject(subjectService.findOneDirect(classDTO.getSubjectId()));
         cls.setUsers(classDTO.getMentorIds()
                 .stream().map(mentorId -> userService.findOneDirect(mentorId))
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList()));
+
         return cls;
         }
 
