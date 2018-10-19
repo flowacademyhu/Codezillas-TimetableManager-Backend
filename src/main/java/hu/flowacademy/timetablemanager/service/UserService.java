@@ -148,8 +148,4 @@ public class UserService {
 
         return user;
     }
-
-    public boolean isValidActivationCode(String activationCode) {
-        return userRepository.findByActivationCode(activationCode) != null;
-    }
 }
